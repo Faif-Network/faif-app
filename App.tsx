@@ -1,91 +1,50 @@
-import React from 'react';
-import { View, Text, Image, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
-import Feed from './screens/Feed';
-import { Ionicons } from "@expo/vector-icons";
-
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import React from 'react'
+import { Text, View } from 'react-native'
+import LoginScreen from './screens/Login'
+import SignUpScreen from './screens/SignUp'
 
 function HomeScreen() {
-  const posts = [
-    {
-      avatar: 'https://media.licdn.com/dms/image/D4D03AQE3dTy4ZRZafg/profile-displayphoto-shrink_400_400/0/1678395006979?e=1688601600&v=beta&t=EKky14DKQlfDN1RITMnlZqEkXsbFqEwwgK5y5RcuE9E',
-      name: 'John Doe',
-      timestamp: '2023-05-02T10:00:00Z',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      timestamp: '2023-05-01T12:00:00Z',
-      text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      timestamp: '2023-05-01T12:00:00Z',
-      text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      timestamp: '2023-05-01T12:00:00Z',
-      text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      image: 'https://picsum.photos/400/400',
-    },
-  ];
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.button}>
-        <Ionicons name="camera-outline" size={24} color="#fff" />
-      </TouchableOpacity>
-      <Image style={styles.logo} source={{
-        uri: "https://i.imgur.com/Y6eoxWl.png"
-      }} />
-      <TouchableOpacity style={styles.button}>
-        <Ionicons name="chatbubbles-outline" size={24} color="#fff" />
-      </TouchableOpacity>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
     </View>
-      <ScrollView style={{ flex: 1 }}>
-        <Feed posts={posts}/>
-      </ScrollView>
-    </SafeAreaView>
-  );
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    height: 80,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  logo: {
-    width: 80,
-    height: 80,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  button: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 20,
-    backgroundColor: 'black',
-    marginHorizontal: 10,
-  },
-});
+function SplashScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Splash Screen</Text>
+    </View>
+  )
+}
 
-export default HomeScreen;
+function App() {
+  const mockData = {
+    isFetching: false,
+    isAuth: false,
+  }
 
+  const Stack = createNativeStackNavigator()
 
+  if (mockData.isFetching) return <SplashScreen />
 
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        {mockData.isAuth ? (
+          <Stack.Screen name="Home" component={HomeScreen} />
+        ) : (
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
 
+export default App

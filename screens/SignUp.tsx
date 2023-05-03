@@ -1,14 +1,20 @@
-import React from 'react';
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React from 'react'
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
-export default function SignUp() {
+export default function SignUpScreen() {
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={{
-        uri: "https://i.imgur.com/Y6eoxWl.png"
-      }} />
+      <Image
+        style={styles.logo}
+        source={{
+          uri: 'https://i.imgur.com/Y6eoxWl.png',
+        }}
+      />
       <Text style={styles.title}>Crea una nueva cuenta</Text>
-      <Text style={styles.title2}>Bienvenido a Faif, rellena el siguiente formulario para poder registrarte y formar parte de esta comunidad</Text>
+      <Text style={styles.title2}>
+        Bienvenido a Faif, rellena el siguiente formulario para poder registrarte y formar parte de
+        esta comunidad
+      </Text>
       <TextInput style={styles.input} placeholder="Nickname" />
       <TextInput style={styles.input} placeholder="Correo electrónico" />
       <TextInput style={styles.input} placeholder="Contraseña" secureTextEntry={true} />
@@ -17,14 +23,14 @@ export default function SignUp() {
         <Text style={styles.loginButtonText}>Registrate</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.forgotPassword}>
-      <Text style={styles.forgotPasswordText}>Ya tienes cuenta? Inicia sesión</Text>
+        <Text style={styles.forgotPasswordText}>Ya tienes cuenta? Inicia sesión</Text>
       </TouchableOpacity>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
-   container: {
+  container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -87,4 +93,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-});
+})

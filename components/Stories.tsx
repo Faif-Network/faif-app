@@ -1,7 +1,14 @@
-import React from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
-import { Ionicons } from "@expo/vector-icons";
-
+import React from 'react'
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
 
 function Stories() {
   const StoriesPosts = [
@@ -30,12 +37,12 @@ function Stories() {
       name: 'Jane Doe',
       image: 'https://picsum.photos/400/400',
     },
-  ];
+  ]
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{ flex: 1 }} horizontal={true}>
-        {StoriesPosts.map(post => (
+        {StoriesPosts.map((post) => (
           <View style={styles.postContainer}>
             <Image source={{ uri: post.avatar }} style={styles.avatar} />
             <Text style={styles.name}>{post.name}</Text>
@@ -44,7 +51,7 @@ function Stories() {
         ))}
       </ScrollView>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -74,6 +81,6 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 10,
   },
-}); 
+})
 
-export default Stories;
+export default Stories

@@ -1,30 +1,39 @@
-import React from 'react';
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
+import React from 'react'
+import { Image, StyleSheet, View } from 'react-native'
+import Button from '../components/Buttons'
+import InputText from '../components/Inputs'
+import Text from '../components/Text'
 
-export default function Login() {
+export default function LoginScreen() {
+  const navigation = useNavigation()
+
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={{
-        uri: "https://i.imgur.com/Y6eoxWl.png"
-      }} />
-      <Text style={styles.title}>Iniciar sesión</Text>
-      <TextInput style={styles.input} placeholder="Correo electrónico" />
-      <TextInput style={styles.input} placeholder="Contraseña" secureTextEntry={true} />
-      <TouchableOpacity style={styles.forgotPassword}>
-        <Text style={styles.forgotPasswordText}>¿Has olvidado tu contraseña?</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.loginButton}>
-        <Text style={styles.loginButtonText}>Iniciar sesión</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.forgotPassword}>
-      <Text style={styles.forgotPasswordText}>¿No tienes cuenta? Registrate</Text>
-      </TouchableOpacity>
+      <Image
+        style={styles.logo}
+        source={{
+          uri: 'https://i.imgur.com/Y6eoxWl.png',
+        }}
+      />
+      <Text value="Iniciar sesión" size="large" weight="bold" align="center" />
+      <InputText placeholder="Correo electrónico" />
+      <InputText placeholder="Contraseña" isPassword={true} />
+      <Text value="¿Olvidaste tu contraseña?" size="small" align="right" />
+      <Button
+        title="Iniciar sesión"
+        primary={true}
+        onPress={() => {
+          navigation.navigate('SignUp' as never)
+        }}
+      />
+      <Text value="¿No tienes cuenta? Regístrate" size="small" align="center" />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
-   container: {
+  container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -80,4 +89,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-});
+})

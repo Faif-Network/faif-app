@@ -1,46 +1,41 @@
-import React from 'react';
-import { View, Text, Image, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from "@expo/vector-icons";
-
+import { Ionicons } from '@expo/vector-icons'
+import React from 'react'
+import { Image, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 
 function Header() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.button}>
-        <Ionicons name="camera-outline" size={24} color="#fff" />
-      </TouchableOpacity>
-      <Image style={styles.logo} source={{
-        uri: "https://i.imgur.com/Y6eoxWl.png"
-      }} />
-      <TouchableOpacity style={styles.button}>
-        <Ionicons name="chatbubbles-outline" size={24} color="#fff" />
-      </TouchableOpacity>
-    </View>
-      <ScrollView style={{ flex: 1 }}>
-  
-      </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.button}>
+          <Ionicons name="camera-outline" size={24} color="#fff" />
+        </TouchableOpacity>
+        <Image style={styles.logo} source={{ uri: 'https://i.imgur.com/Y6eoxWl.png' }} />
+        <TouchableOpacity style={styles.button}>
+          <Ionicons name="chatbubbles-outline" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
+      <ScrollView style={styles.scrollView}></ScrollView>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 0,
     backgroundColor: '#fff',
-    height: 80,
+  },
+  header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
   logo: {
-    width: 80,
-    height: 80,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    width: 64,
+    height: 64,
   },
   button: {
     width: 40,
@@ -49,10 +44,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
     backgroundColor: 'black',
-    marginHorizontal: 10,
   },
-});
+  scrollView: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+})
 
-export default Header;
-
-
+export default Header
