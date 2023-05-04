@@ -37,7 +37,7 @@ function HomeScreen() {
   ]
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Header />
+      <Header headerFunction={[]} />
       <ScrollView style={{ flex: 1 }}>
         <Feed posts={posts} />
       </ScrollView>
