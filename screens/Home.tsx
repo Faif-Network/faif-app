@@ -2,6 +2,8 @@ import React from 'react'
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native'
 import Header from '../components/Header'
 import Feed from './Feed'
+import Stories from '../components/Stories'
+
 
 function HomeScreen() {
   const posts = [

@@ -10,7 +10,14 @@ import {
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
-function Stories() {
+interface IStories {
+  container: string
+  avatar: string
+  name: string
+  image: string
+}
+
+function Stories({storiesPost}: {storiesPost: IStories[]}) {
   const StoriesPosts = [
     {
       avatar: 'https://picsum.photos/200/200',
@@ -38,7 +45,7 @@ function Stories() {
       image: 'https://picsum.photos/400/400',
     },
   ]
-
+const renderStories = (storiesPost: IStories) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{ flex: 1 }} horizontal={true}>
@@ -52,6 +59,8 @@ function Stories() {
       </ScrollView>
     </SafeAreaView>
   )
+}
+  
 }
 
 const styles = StyleSheet.create({
