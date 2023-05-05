@@ -1,7 +1,7 @@
 import React from 'react'
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native'
 import Header from '../components/Header'
-import Feed from './Feed'
+import PostViewer from '../components/PostViewer'
 import Stories from '../components/Stories'
 
 
@@ -39,9 +39,9 @@ function HomeScreen() {
   ]
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Header headerFunction={[]} />
+      <Header/>
       <ScrollView style={{ flex: 1 }}>
-        <Feed posts={posts} />
+        <PostViewer posts={posts} />
       </ScrollView>
     </SafeAreaView>
   )

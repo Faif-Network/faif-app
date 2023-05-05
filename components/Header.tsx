@@ -2,17 +2,8 @@ import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { Image, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 
-interface IHeader {
-  container: string
-  header: string
-  button: string
-  logo: string
-  scrollview: string
 
-}
-
-function Header({headerFunction}: {headerFunction: IHeader[]}) {
-  const renderHeader = (header: IHeader) => {
+function Header() {
     return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -27,9 +18,7 @@ function Header({headerFunction}: {headerFunction: IHeader[]}) {
       <ScrollView style={styles.scrollView}></ScrollView>
     </SafeAreaView>
   )
-  }
-  return <View style={styles.container}>{headerFunction.map((header) => renderHeader(header))}</View>
-}
+  } 
 
 const styles = StyleSheet.create({
   container: {

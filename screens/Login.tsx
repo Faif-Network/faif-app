@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { Image, StyleSheet, View } from 'react-native'
 import Button from '../components/Buttons'
 import InputText from '../components/Inputs'
@@ -24,7 +24,7 @@ export default function LoginScreen() {
         title="Iniciar sesión"
         primary={true}
         onPress={() => {
-          navigation.navigate('SignUp' as never)
+          navigation.navigate('Login' as never)
         }}
       />
       <Text value="¿No tienes cuenta? Regístrate" size="small" align="center" />

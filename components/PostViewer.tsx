@@ -10,10 +10,10 @@ interface IPost {
   image: string
 }
 
-function Feed({ posts }: { posts: IPost[] }) {
+function PostViewer({ posts }: { posts: IPost[] }) {
   const renderPost = (post: IPost) => {
     return (
-      <View style={styles.feedItem}>
+      <View style={styles.PostViewerItem}>
         <Image source={{ uri: post.avatar }} style={styles.avatar} />
         <View style={{ flex: 1 }}>
           <View
@@ -43,7 +43,7 @@ function Feed({ posts }: { posts: IPost[] }) {
   return <View style={styles.container}>{posts.map((post) => renderPost(post))}</View>
 }
 
-export default Feed
+export default PostViewer
 
 const styles = StyleSheet.create({
   container: {
@@ -68,10 +68,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
   },
-  feed: {
+  PostViewer: {
     marginHorizontal: 16,
   },
-  feedItem: {
+  PostViewerItem: {
     backgroundColor: '#FFF',
     borderRadius: 5,
     padding: 8,

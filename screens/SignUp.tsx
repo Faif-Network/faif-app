@@ -1,7 +1,13 @@
 import React from 'react'
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import Button from '../components/Buttons'
+import InputText from '../components/Inputs'
+import Text from '../components/Text'
 
 export default function SignUpScreen() {
+  const navigation = useNavigation()
+
   return (
     <View style={styles.container}>
       <Image
@@ -10,20 +16,24 @@ export default function SignUpScreen() {
           uri: 'https://i.imgur.com/Y6eoxWl.png',
         }}
       />
-      <Text style={styles.title}>Crea una nueva cuenta</Text>
-      <Text style={styles.title2}>
-        Bienvenido a Faif, rellena el siguiente formulario para poder registrarte y formar parte de
-        esta comunidad
-      </Text>
-      <TextInput style={styles.input} placeholder="Nickname" />
-      <TextInput style={styles.input} placeholder="Correo electrónico" />
-      <TextInput style={styles.input} placeholder="Contraseña" secureTextEntry={true} />
-      <TextInput style={styles.input} placeholder="Repita la contraseña" secureTextEntry={true} />
-      <TouchableOpacity style={styles.loginButton}>
-        <Text style={styles.loginButtonText}>Registrate</Text>
-      </TouchableOpacity>
+      <Text value="Crea una nueva cuenta"size="large" weight="bold" align="center" />
+      <Text value='Bienvenido a Faif, rellena el siguiente formulario para poder registrarte y formar parte de
+        esta comunidad' size="small" weight="bold" align="center" />
+      <Text value="Registrate" size="medium" weight="bold" align="center" />
+      <InputText placeholder="Nickname" />
+      <InputText placeholder="Correo electrónico" />
+      <InputText placeholder="Contraseña" isPassword={true} /> 
+      <InputText placeholder="Repite tu contraseña" isPassword={true}/>
+      <Text value="¿Olvidaste tu contraseña?" size="small" align="right" />
+      <Button
+        title="Registrate"
+        primary={true}
+        onPress={() => {
+          navigation.navigate('SignUp' as never)
+        }}
+      />
       <TouchableOpacity style={styles.forgotPassword}>
-        <Text style={styles.forgotPasswordText}>Ya tienes cuenta? Inicia sesión</Text>
+      <Text value="Ya tienes cuenta? Inicia sesión" size="small" align="center" />
       </TouchableOpacity>
     </View>
   )
@@ -80,7 +90,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     marginLeft: 10,
   },
-  loginButton: {
+  SignUpButton: {
     width: '80%',
     height: 40,
     backgroundColor: '#4BBFF1',
@@ -88,7 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  loginButtonText: {
+  SignUpButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
