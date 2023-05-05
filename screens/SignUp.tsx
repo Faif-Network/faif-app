@@ -18,7 +18,7 @@ export default function SignUpScreen() {
       />
       <Text value="Crea una nueva cuenta"size="large" weight="bold" align="center" />
       <Text value='Bienvenido a Faif, rellena el siguiente formulario para poder registrarte y formar parte de
-        esta comunidad' size="small" weight="bold" align="center" />
+        esta comunidad' size="small" weight="light" align="center" />
       <Text value="Registrate" size="medium" weight="bold" align="center" />
       <InputText placeholder="Nickname" />
       <InputText placeholder="Correo electrónico" />

@@ -40,6 +40,7 @@ function HomeScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Header/>
+      <Stories/>
       <ScrollView style={{ flex: 1 }}>
         <PostViewer posts={posts} />
       </ScrollView>
