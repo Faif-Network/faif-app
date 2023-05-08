@@ -1,12 +1,29 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
+import useRegister, { IRegisterRequest } from '../api/hooks/auth/useRegister'
 import Button from '../components/Buttons'
 import InputText from '../components/Inputs'
 import Text from '../components/Text'
+import useForm from '../utils/useForm'
 
 export default function SignUpScreen() {
   const navigation = useNavigation()
+
+  const { handleRegister, isLoading } = useRegister()
+
+  const onSubmit = async (values: IRegisterRequest) => {
+    await handleRegister(values)
+  }
+
+  const form = useForm<IRegisterRequest>({
+    initialValues: {
+      username: '',
+      email: '',
+      password: '',
+    },
+    onSubmit,
+  })
 
   return (
     <View style={styles.container}>
@@ -25,16 +42,26 @@ export default function SignUpScreen() {
         align="center"
       />
       <Text value="Registrate" size="medium" weight="bold" align="center" />
-      <InputText placeholder="Nickname" />
-      <InputText placeholder="Correo electrónico" />
-      <InputText placeholder="Contraseña" isPassword={true} />
-      <InputText placeholder="Repite tu contraseña" isPassword={true} />
+      <InputText
+        placeholder="Nombre de usuario"
+        onChangeText={(value) => form.handleChange('username', value)}
+      />
+      <InputText
+        placeholder="Correo electrónico"
+        onChangeText={(value) => form.handleChange('email', value)}
+      />
+      <InputText
+        placeholder="Contraseña"
+        isPassword={true}
+        onChangeText={(value) => form.handleChange('password', value)}
+      />
       <Button
         title="Registrate"
         primary={true}
         onPress={() => {
-          navigation.navigate('HomeScreen' as never)
+          form.handleSubmit()
         }}
+        isLoading={isLoading}
       />
       <Text
         value="Ya tienes cuenta? Inicia sesión"

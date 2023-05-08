@@ -1,12 +1,28 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
+import useLogin, { ILoginRequest } from '../api/hooks/auth/useLogin'
 import Button from '../components/Buttons'
 import InputText from '../components/Inputs'
 import Text from '../components/Text'
+import useForm from '../utils/useForm'
 
 export default function LoginScreen() {
   const navigation = useNavigation()
+
+  const { handleLogin, isLoading } = useLogin()
+
+  const onSubmit = async (values: ILoginRequest) => {
+    await handleLogin(values)
+  }
+
+  const form = useForm<ILoginRequest>({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit,
+  })
 
   return (
     <View style={styles.container}>
@@ -17,20 +33,28 @@ export default function LoginScreen() {
         }}
       />
       <Text value="Iniciar sesión" size="large" weight="bold" align="center" />
-      <InputText placeholder="Correo electrónico" />
-      <InputText placeholder="Contraseña" isPassword={true} />
+      <InputText
+        placeholder="Correo electrónico"
+        onChangeText={(value) => form.handleChange('email', value)}
+      />
+      <InputText
+        placeholder="Contraseña"
+        isPassword={true}
+        onChangeText={(value) => form.handleChange('password', value)}
+      />
       <Text
         value="¿Olvidaste tu contraseña?"
         size="small"
         align="right"
-        onPress={() => navigation.navigate('RestorePassw' as never)}
+        onPress={() => navigation.navigate('RestorePassword' as never)}
       />
       <Button
         title="Iniciar sesión"
         primary={true}
         onPress={() => {
-          navigation.navigate('HomeScreen' as never)
+          form.handleSubmit()
         }}
+        isLoading={isLoading}
       />
       <Text
         value="¿No tienes cuenta? Regístrate"

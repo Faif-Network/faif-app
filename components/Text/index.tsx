@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#000',
     padding: 4,
-    margin: 0,
+    marginVertical: 4,
   },
   left: {
     alignSelf: 'flex-start',

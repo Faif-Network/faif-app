@@ -5,16 +5,28 @@ interface ButtonProps {
   title: string
   onPress: () => void
   primary?: boolean
+  isLoading?: boolean
 }
 
 const Button = (props: ButtonProps) => {
   const { title, onPress, primary } = props
   const buttonStyle = primary ? styles.primaryButton : styles.secondaryButton
   const textStyle = primary ? styles.primaryText : styles.secondaryText
+  const disabledStyle = props.isLoading ? { opacity: 0.5 } : {}
 
   return (
-    <TouchableOpacity style={[styles.basicButton, buttonStyle]} onPress={onPress}>
-      <Text style={textStyle}>{title}</Text>
+    <TouchableOpacity
+      style={[styles.basicButton, buttonStyle, disabledStyle]}
+      onPress={onPress}
+      disabled={props.isLoading}
+    >
+      <Text style={textStyle}>
+        {props.isLoading ? (
+          <Text style={textStyle}>Cargando...</Text>
+        ) : (
+          <Text style={textStyle}>{title}</Text>
+        )}
+      </Text>
     </TouchableOpacity>
   )
 }

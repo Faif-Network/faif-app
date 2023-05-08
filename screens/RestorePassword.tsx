@@ -5,7 +5,7 @@ import Button from '../components/Buttons'
 import InputText from '../components/Inputs'
 import Text from '../components/Text'
 
-export default function RestorePassw() {
+export default function RestorePassword() {
   const navigation = useNavigation()
 
   return (
@@ -19,7 +19,7 @@ export default function RestorePassw() {
       <Text value="Restaura tu contraseña" size="large" weight="bold" align="center" />
       <InputText placeholder="Correo electrónico" />
       <Button
-        title="Enviar"
+        title="Restaurar"
         primary={true}
         onPress={() => {
           navigation.navigate('Login' as never)
@@ -48,32 +48,5 @@ const styles = StyleSheet.create({
   logo: {
     width: 80,
     height: 80,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  input: {
-    width: '80%',
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
-    padding: 10,
-    marginBottom: 10,
-  },
-  RestorePasswButton: {
-    width: '80%',
-    height: 40,
-    backgroundColor: '#4BBFF1',
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  RestorePasswButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 })
