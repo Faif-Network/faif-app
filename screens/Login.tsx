@@ -19,13 +19,11 @@ export default function LoginScreen() {
       <Text value="Iniciar sesión" size="large" weight="bold" align="center" />
       <InputText placeholder="Correo electrónico" />
       <InputText placeholder="Contraseña" isPassword={true} />
-      <Text value="¿Olvidaste tu contraseña?" size="small" align="right" />
-      <Button
-        title="Iniciar sesión"
-        primary={true}
-        onPress={() => {
-          navigation.navigate('HomeScreen' as never)
-        }}
+      <Text
+        value="¿Olvidaste tu contraseña?"
+        size="small"
+        align="right"
+        onPress={() => navigation.navigate('RestorePassw' as never)}
       />
       <Text
         value="¿No tienes cuenta? Regístrate"

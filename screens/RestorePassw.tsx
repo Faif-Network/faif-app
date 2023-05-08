@@ -5,7 +5,7 @@ import Button from '../components/Buttons'
 import InputText from '../components/Inputs'
 import Text from '../components/Text'
 
-export default function SignUpScreen() {
+export default function RestorePassw() {
   const navigation = useNavigation()
 
   return (
@@ -16,31 +16,14 @@ export default function SignUpScreen() {
           uri: 'https://i.imgur.com/Y6eoxWl.png',
         }}
       />
-      <Text value="Crea una nueva cuenta" size="large" weight="bold" align="center" />
-      <Text
-        value="Bienvenido a Faif, rellena el siguiente formulario para poder registrarte y formar parte de
-        esta comunidad"
-        size="small"
-        weight="light"
-        align="center"
-      />
-      <Text value="Registrate" size="medium" weight="bold" align="center" />
-      <InputText placeholder="Nickname" />
+      <Text value="Restaura tu contraseña" size="large" weight="bold" align="center" />
       <InputText placeholder="Correo electrónico" />
-      <InputText placeholder="Contraseña" isPassword={true} />
-      <InputText placeholder="Repite tu contraseña" isPassword={true} />
       <Button
-        title="Registrate"
+        title="Enviar"
         primary={true}
         onPress={() => {
-          navigation.navigate('SignUp' as never)
+          navigation.navigate('SplashScreen' as never)
         }}
-      />
-      <Text
-        value="Ya tienes cuenta? Inicia sesión"
-        size="small"
-        align="center"
-        onPress={() => navigation.navigate('Login' as never)}
       />
     </View>
   )
@@ -65,5 +48,42 @@ const styles = StyleSheet.create({
   logo: {
     width: 80,
     height: 80,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    width: '80%',
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    padding: 10,
+    marginBottom: 10,
+  },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    marginBottom: 20,
+    marginRight: 20,
+  },
+  forgotPasswordText: {
+    color: '#007AFF',
+    textDecorationLine: 'underline',
+    marginLeft: 10,
+  },
+  loginButton: {
+    width: '80%',
+    height: 40,
+    backgroundColor: '#4BBFF1',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 })
