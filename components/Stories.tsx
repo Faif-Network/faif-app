@@ -1,66 +1,25 @@
 import React from 'react'
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 
 interface IStories {
-  container: string
   avatar: string
   name: string
   image: string
 }
 
-function Stories({storiesPost}: {storiesPost: IStories[]}) {
-  const StoriesPosts = [
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'John Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-  ]
-const renderStories = (storiesPost: IStories) => {
+function Stories({ stories: storiesPost }: { stories: IStories[] }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{ flex: 1 }} horizontal={true}>
-        {StoriesPosts.map((post) => (
-          <View style={styles.postContainer}>
+        {storiesPost.map((post, index) => (
+          <View style={styles.story} key={index}>
             <Image source={{ uri: post.avatar }} style={styles.avatar} />
             <Text style={styles.name}>{post.name}</Text>
-            <Image source={{ uri: post.image }} style={styles.image} resizeMode="cover" />
           </View>
         ))}
       </ScrollView>
     </SafeAreaView>
   )
-}
-  
 }
 
 const styles = StyleSheet.create({
@@ -68,8 +27,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
   },
-  postContainer: {
+  story: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
@@ -84,11 +44,6 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: 'bold',
     marginBottom: 5,
-  },
-  image: {
-    width: 200,
-    height: 200,
-    borderRadius: 10,
   },
 })
 

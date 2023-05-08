@@ -1,88 +1,104 @@
-import React from 'react'
-import { View, Text, StyleSheet, Image, ImageSourcePropType } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+import React from 'react'
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
 
 interface IPost {
   avatar: string
   name: string
   timestamp: string
-  text: string
-  image: string
+  text?: string
+  image?: string
+}
+
+function PostItem({ post }: { post: IPost }) {
+  return (
+    <View style={styles.postItem}>
+      <Image source={{ uri: post.avatar }} style={styles.avatar} />
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            <Text style={styles.name}>{post.name}</Text>
+            <Text style={styles.timestamp}>
+              {new Date(post.timestamp).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </Text>
+          </View>
+          <Ionicons
+            name={'ellipsis-horizontal-outline'}
+            size={24}
+            color={'#73788B'}
+            style={{ marginRight: 16 }}
+          />
+        </View>
+        {post.text && <Text style={styles.text}>{post.text}</Text>}
+        {post.image && (
+          <Image source={{ uri: post.image }} style={styles.image} resizeMode="cover" />
+        )}
+        <View style={styles.footer}>
+          <Ionicons name="heart-outline" size={24} color="#73788B" style={styles.icon} />
+          <Ionicons
+            name="chatbubble-ellipses-outline"
+            size={24}
+            color="#73788B"
+            style={styles.icon}
+          />
+        </View>
+      </View>
+    </View>
+  )
 }
 
 function PostViewer({ posts }: { posts: IPost[] }) {
-  const renderPost = (post: IPost) => {
-    return (
-      <View style={styles.PostViewerItem}>
-        <Image source={{ uri: post.avatar }} style={styles.avatar} />
-        <View style={{ flex: 1 }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <View>
-              <Text style={styles.name}>{post.name}</Text>
-              <Text style={styles.timestamp}>{post.timestamp}</Text>
-            </View>
-            <Ionicons name="ellipsis-horizontal" size={24} color="#73788B" />
-          </View>
-          <Text style={styles.post}>{post.text}</Text>
-          <Image source={{ uri: post.image }} style={styles.postImage} resizeMode="cover" />
-          <View style={{ flexDirection: 'row' }}>
-            <Ionicons name="heart-outline" size={24} color="#73788B" style={{ marginRight: 16 }} />
-            <Ionicons name="chatbubble-ellipses-outline" size={24} color="#73788B" />
-          </View>
-        </View>
-      </View>
-    )
-  }
+  const renderItem = ({ item }: { item: IPost }) => <PostItem post={item} />
 
-  return <View style={styles.container}>{posts.map((post) => renderPost(post))}</View>
+  return (
+    <FlatList
+      data={posts}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.timestamp}
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+    />
+  )
 }
 
 export default PostViewer
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#EBECF4',
-  },
-  header: {
-    paddingTop: 64,
-    paddingBottom: 16,
     backgroundColor: '#FFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#EBECF4',
-    shadowColor: '#454D65',
-    shadowOffset: { height: 5, width: 5 },
-    shadowRadius: 15,
-    shadowOpacity: 0.2,
-    zIndex: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: '500',
-  },
-  PostViewer: {
-    marginHorizontal: 16,
-  },
-  PostViewerItem: {
+  postItem: {
     backgroundColor: '#FFF',
     borderRadius: 5,
-    padding: 8,
     flexDirection: 'row',
-    marginVertical: 8,
+    marginBottom: 8,
+    padding: 8,
   },
   avatar: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    marginRight: 16,
+    marginRight: 8,
+  },
+  content: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  headerLeft: {
+    flex: 1,
   },
   name: {
     fontSize: 15,
@@ -94,15 +110,22 @@ const styles = StyleSheet.create({
     color: '#C4C6CE',
     marginTop: 4,
   },
-  post: {
-    marginTop: 16,
+  text: {
     fontSize: 14,
     color: '#838899',
   },
-  postImage: {
-    width: undefined,
-    height: 150,
+  image: {
+    width: '100%',
+    height: 200,
     borderRadius: 5,
-    marginVertical: 16,
+    marginBottom: 8,
+  },
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  icon: {
+    marginRight: 16,
   },
 })
