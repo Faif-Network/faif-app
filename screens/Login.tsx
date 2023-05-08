@@ -25,6 +25,13 @@ export default function LoginScreen() {
         align="right"
         onPress={() => navigation.navigate('RestorePassw' as never)}
       />
+      <Button
+        title="Iniciar sesión"
+        primary={true}
+        onPress={() => {
+          navigation.navigate('HomeScreen' as never)
+        }}
+      />
       <Text
         value="¿No tienes cuenta? Regístrate"
         size="small"

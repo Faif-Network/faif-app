@@ -22,7 +22,7 @@ export default function RestorePassw() {
         title="Enviar"
         primary={true}
         onPress={() => {
-          navigation.navigate('SplashScreen' as never)
+          navigation.navigate('Login' as never)
         }}
       />
     </View>
@@ -63,17 +63,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
   },
-  forgotPassword: {
-    alignSelf: 'flex-end',
-    marginBottom: 20,
-    marginRight: 20,
-  },
-  forgotPasswordText: {
-    color: '#007AFF',
-    textDecorationLine: 'underline',
-    marginLeft: 10,
-  },
-  loginButton: {
+  RestorePasswButton: {
     width: '80%',
     height: 40,
     backgroundColor: '#4BBFF1',
@@ -81,7 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  loginButtonText: {
+  RestorePasswButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',

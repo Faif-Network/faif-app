@@ -33,7 +33,7 @@ export default function SignUpScreen() {
         title="Registrate"
         primary={true}
         onPress={() => {
-          navigation.navigate('SignUp' as never)
+          navigation.navigate('HomeScreen' as never)
         }}
       />
       <Text
