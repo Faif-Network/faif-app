@@ -1,9 +1,18 @@
 import React from 'react'
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
 
 interface IStories {
   avatar: string
-  name: string
+  name: string  
   image: string
 }
 
@@ -21,6 +30,9 @@ function Stories({ stories: storiesPost }: { stories: IStories[] }) {
     </SafeAreaView>
   )
 }
+
+  
+
 
 const styles = StyleSheet.create({
   container: {

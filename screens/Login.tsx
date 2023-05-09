@@ -109,18 +109,5 @@ const styles = StyleSheet.create({
     color: '#007AFF',
     textDecorationLine: 'underline',
     marginLeft: 10,
-  },
-  loginButton: {
-    width: '80%',
-    height: 40,
-    backgroundColor: '#4BBFF1',
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loginButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+  }
 })
