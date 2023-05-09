@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { View, Button, Image, SafeAreaView, ScrollView } from 'react-native';
 import ImagePicker, { ImageOrVideo } from 'react-native-image-crop-picker';
-import PostViewer from '../components/PostViewer';
-import Stories from '../components/Stories';
-
 
 function Upload(){
   const UploadPost = () => {
@@ -47,6 +44,5 @@ function Upload(){
     )
   };
 }
-
 
 export default Upload;

@@ -31,9 +31,6 @@ function Stories({ stories: storiesPost }: { stories: IStories[] }) {
   )
 }
 
-  
-
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
