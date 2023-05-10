@@ -47,7 +47,7 @@ function PostItem({ post }: { post: IPost }) {
         {post.text && <Text style={styles.text}>{post.text}</Text>}
         {post.image && (
           <TouchableOpacity
-            onPress={() => navigation.navigate('Chat' as never)}
+            onPress={() => navigation.navigate('PostDetails' as never)}
           >
             <Image
               source={{ uri: post.image }}
@@ -63,12 +63,16 @@ function PostItem({ post }: { post: IPost }) {
             color="#73788B"
             style={styles.icon}
           />
-          <Ionicons
-            name="chatbubble-ellipses-outline"
-            size={24}
-            color="#73788B"
-            style={styles.icon}
-          />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Chat' as never)}
+          >
+            <Ionicons
+              name="chatbubble-ellipses-outline"
+              size={24}
+              color="#73788B"
+              style={styles.icon}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </View>

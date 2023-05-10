@@ -6,6 +6,8 @@ import { Text, View } from 'react-native';
 import HomeScreen from './screens/Home';
 import LoginScreen from './screens/Login';
 import SignUpScreen from './screens/SignUp';
+import ChatScreen from './screens/Chat';
+import PostDetail from './screens/PostDetails';
 
 function SplashScreen() {
   return (
@@ -33,6 +35,7 @@ function App() {
           {mockData.isAuth ? (
             <>
               <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="PostDetails" component={PostDetail} />
             </>
           ) : (
             <>
