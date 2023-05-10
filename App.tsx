@@ -1,11 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import { Text, View } from 'react-native'
 import LoginScreen from './screens/Login'
 import SignUpScreen from './screens/SignUp'
-import Upload from './screens/UploadPost'
-
 
 function HomeScreen() {
   return (
@@ -30,22 +29,28 @@ function App() {
   }
 
   const Stack = createNativeStackNavigator()
+  const queryClient = new QueryClient()
 
   if (mockData.isFetching) return <SplashScreen />
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {mockData.isAuth ? (
-          <Stack.Screen name="Home" component={HomeScreen} />
-          
-        ) : (
-          <>
-            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />           
-          </>
-        )}
-      </Stack.Navigator>
+      <QueryClientProvider client={queryClient}>
+        <Stack.Navigator>
+          {mockData.isAuth ? (
+            <Stack.Screen name="Home" component={HomeScreen} />
+          ) : (
+            <>
+              <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+              <Stack.Screen
+                name="SignUp"
+                component={SignUpScreen}
+                options={{ headerShown: false }}
+              />
+            </>
+          )}
+        </Stack.Navigator>
+      </QueryClientProvider>
     </NavigationContainer>
   )
 }
