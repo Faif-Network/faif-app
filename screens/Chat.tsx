@@ -12,7 +12,7 @@ interface Message {
   content: string;
 }
 
-const ChatScreen: React.FC = () => {
+function ChatScreen() {
   const [inputValue, setInputValue] = useState<string>('');
   const [messages, setMessages] = useState<Message[]>([]);
 
@@ -96,6 +96,6 @@ const ChatScreen: React.FC = () => {
       </View>
     </View>
   );
-};
+}
 
 export default ChatScreen;

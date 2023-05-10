@@ -1,16 +1,26 @@
-import { Ionicons } from '@expo/vector-icons'
-import React from 'react'
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 interface IPost {
-  avatar: string
-  name: string
-  timestamp: string
-  text?: string
-  image?: string
+  avatar: string;
+  name: string;
+  timestamp: string;
+  text?: string;
+  image?: string;
 }
 
 function PostItem({ post }: { post: IPost }) {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.postItem}>
       <Image source={{ uri: post.avatar }} style={styles.avatar} />
@@ -36,10 +46,23 @@ function PostItem({ post }: { post: IPost }) {
         </View>
         {post.text && <Text style={styles.text}>{post.text}</Text>}
         {post.image && (
-          <Image source={{ uri: post.image }} style={styles.image} resizeMode="cover" />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Chat' as never)}
+          >
+            <Image
+              source={{ uri: post.image }}
+              style={styles.image}
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
         )}
         <View style={styles.footer}>
-          <Ionicons name="heart-outline" size={24} color="#73788B" style={styles.icon} />
+          <Ionicons
+            name="heart-outline"
+            size={24}
+            color="#73788B"
+            style={styles.icon}
+          />
           <Ionicons
             name="chatbubble-ellipses-outline"
             size={24}
@@ -49,11 +72,11 @@ function PostItem({ post }: { post: IPost }) {
         </View>
       </View>
     </View>
-  )
+  );
 }
 
 function PostViewer({ posts }: { posts: IPost[] }) {
-  const renderItem = ({ item }: { item: IPost }) => <PostItem post={item} />
+  const renderItem = ({ item }: { item: IPost }) => <PostItem post={item} />;
 
   return (
     <FlatList
@@ -64,10 +87,10 @@ function PostViewer({ posts }: { posts: IPost[] }) {
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
     />
-  )
+  );
 }
 
-export default PostViewer
+export default PostViewer;
 
 const styles = StyleSheet.create({
   container: {
@@ -128,4 +151,4 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: 16,
   },
-})
+});
