@@ -6,7 +6,8 @@
     "start": "expo start --tunnel",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
@@ -28,8 +29,25 @@
     "@babel/core": "^7.20.0",
     "@types/react": "~18.0.14",
     "@types/react-native": "^0.71.6",
-    "prettier": "2.8.8",
+    "@typescript-eslint/eslint-plugin": "^5.59.5",
+    "@typescript-eslint/parser": "^5.59.5",
+    "eslint": "^8.40.0",
+    "eslint-plugin-react": "^7.32.2",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
     "typescript": "^4.9.4"
   },
-  "private": true
+  "private": true,
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
 }

@@ -1,5 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, TextInput, TouchableOpacity, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  FlatList,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 interface Message {
   id: string;
@@ -25,17 +31,24 @@ const ChatScreen: React.FC = () => {
     }
 
     const newMessage: Message = {
-        id: Math.random().toString(36).slice(2, 11),
-        content: inputValue,
-      };
-      
+      id: Math.random().toString(36).slice(2, 11),
+      content: inputValue,
+    };
 
     setMessages([...messages, newMessage]);
     setInputValue('');
   };
 
   const renderItem = ({ item }: { item: Message }) => (
-    <View style={{ backgroundColor: 'lightgrey', padding: 10, borderRadius: 10, marginTop: 5, alignSelf: 'flex-start' }}>
+    <View
+      style={{
+        backgroundColor: 'lightgrey',
+        padding: 10,
+        borderRadius: 10,
+        marginTop: 5,
+        alignSelf: 'flex-start',
+      }}
+    >
       <Text>{item.content}</Text>
     </View>
   );
@@ -45,20 +58,37 @@ const ChatScreen: React.FC = () => {
       <FlatList
         data={messages}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         inverted
       />
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: 'white', padding: 10 }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          backgroundColor: 'white',
+          padding: 10,
+        }}
+      >
         <TextInput
-          style={{ flex: 1, marginRight: 10, borderRadius: 10, backgroundColor: 'lightgrey', padding: 10 }}
+          style={{
+            flex: 1,
+            marginRight: 10,
+            borderRadius: 10,
+            backgroundColor: 'lightgrey',
+            padding: 10,
+          }}
           value={inputValue}
           onChangeText={setInputValue}
           placeholder="Escribe un mensaje"
         />
 
         <TouchableOpacity
-          style={{ backgroundColor: 'lightblue', padding: 10, borderRadius: 10 }}
+          style={{
+            backgroundColor: 'lightblue',
+            padding: 10,
+            borderRadius: 10,
+          }}
           onPress={handleSend}
         >
           <Text style={{ color: 'white' }}>Enviar</Text>

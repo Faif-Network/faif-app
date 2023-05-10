@@ -1,18 +1,17 @@
-import React from 'react'
+import React from 'react';
 import {
-  View,
-  Text,
   Image,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native'
+  Text,
+  View,
+} from 'react-native';
 
 interface IStories {
-  avatar: string
-  name: string  
-  image: string
+  avatar: string;
+  name: string;
+  image: string;
 }
 
 function Stories({ stories: storiesPost }: { stories: IStories[] }) {
@@ -27,7 +26,7 @@ function Stories({ stories: storiesPost }: { stories: IStories[] }) {
         ))}
       </ScrollView>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -53,6 +52,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
   },
-})
+});
 
-export default Stories
+export default Stories;
