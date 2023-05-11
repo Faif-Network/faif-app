@@ -1,20 +1,20 @@
-import { useNavigation } from '@react-navigation/native'
-import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
-import useRegister, { IRegisterRequest } from '../api/hooks/auth/useRegister'
-import Button from '../components/Buttons'
-import InputText from '../components/Inputs'
-import Text from '../components/Text'
-import useForm from '../utils/useForm'
+import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { Image, StyleSheet, View } from 'react-native';
+import useRegister, { IRegisterRequest } from '../api/hooks/auth/useRegister';
+import Button from '../components/Buttons';
+import InputText from '../components/Inputs';
+import Text from '../components/Text';
+import useForm from '../utils/useForm';
 
 export default function SignUpScreen() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
-  const { handleRegister, isLoading } = useRegister()
+  const { handleRegister, isLoading } = useRegister();
 
   const onSubmit = async (values: IRegisterRequest) => {
-    await handleRegister(values)
-  }
+    await handleRegister(values);
+  };
 
   const form = useForm<IRegisterRequest>({
     initialValues: {
@@ -23,7 +23,7 @@ export default function SignUpScreen() {
       password: '',
     },
     onSubmit,
-  })
+  });
 
   return (
     <View style={styles.container}>
@@ -33,7 +33,12 @@ export default function SignUpScreen() {
           uri: 'https://i.imgur.com/Y6eoxWl.png',
         }}
       />
-      <Text value="Crea una nueva cuenta" size="large" weight="bold" align="center" />
+      <Text
+        value="Crea una nueva cuenta"
+        size="large"
+        weight="bold"
+        align="center"
+      />
       <Text
         value="Bienvenido a Faif, rellena el siguiente formulario para poder registrarte y formar parte de
         esta comunidad"
@@ -59,7 +64,7 @@ export default function SignUpScreen() {
         title="Registrate"
         primary={true}
         onPress={() => {
-          form.handleSubmit()
+          form.handleSubmit();
         }}
         isLoading={isLoading}
       />
@@ -70,7 +75,7 @@ export default function SignUpScreen() {
         onPress={() => navigation.navigate('Login' as never)}
       />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -93,4 +98,4 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
   },
-})
+});

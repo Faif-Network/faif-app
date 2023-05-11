@@ -1,31 +1,41 @@
-import React from 'react'
-import { StyleSheet, Text as TextRN } from 'react-native'
+import React from 'react';
+import { StyleSheet, Text as TextRN } from 'react-native';
 interface TextProps {
-  value: string
-  align?: 'left' | 'center' | 'right'
-  size?: 'small' | 'medium' | 'large'
-  weight?: 'light' | 'regular' | 'bold'
-  onPress?: () => void
+  value: string;
+  align?: 'left' | 'center' | 'right';
+  size?: 'small' | 'medium' | 'large';
+  weight?: 'light' | 'regular' | 'bold';
+  onPress?: () => void;
 }
 
 const Text = (props: TextProps) => {
-  const { value, align, size, weight } = props
-  const alignStyle = align ? styles[align] : styles.left
-  const sizeStyle = size ? styles[size] : styles.medium
-  const weightStyle = weight ? styles[weight] : styles.regular
+  const { value, align, size, weight } = props;
+  const alignStyle = align ? styles[align] : styles.left;
+  const sizeStyle = size ? styles[size] : styles.medium;
+  const weightStyle = weight ? styles[weight] : styles.regular;
 
   if (props.onPress)
     return (
       <TextRN
-        style={[styles.text, alignStyle, sizeStyle, weightStyle, styles.isClickable]}
+        style={[
+          styles.text,
+          alignStyle,
+          sizeStyle,
+          weightStyle,
+          styles.isClickable,
+        ]}
         onPress={props.onPress}
       >
         {value}
       </TextRN>
-    )
+    );
 
-  return <TextRN style={[styles.text, alignStyle, sizeStyle, weightStyle]}>{value}</TextRN>
-}
+  return (
+    <TextRN style={[styles.text, alignStyle, sizeStyle, weightStyle]}>
+      {value}
+    </TextRN>
+  );
+};
 
 const styles = StyleSheet.create({
   text: {
@@ -36,14 +46,17 @@ const styles = StyleSheet.create({
   left: {
     alignSelf: 'flex-start',
     marginHorizontal: 8,
+    textAlign: 'left',
   },
   center: {
     alignSelf: 'center',
     marginHorizontal: 8,
+    textAlign: 'center',
   },
   right: {
     alignSelf: 'flex-end',
     marginHorizontal: 8,
+    textAlign: 'right',
   },
   small: {
     fontSize: 12,
@@ -67,6 +80,6 @@ const styles = StyleSheet.create({
     color: '#007AFF',
     textDecorationLine: 'underline',
   },
-})
+});
 
-export default Text
+export default Text;
