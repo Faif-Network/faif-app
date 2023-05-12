@@ -5,10 +5,9 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import HomeScreen from './screens/Home';
 import LoginScreen from './screens/Login';
-import SignUpScreen from './screens/SignUp';
-import ChatScreen from './screens/Chat';
 import PostDetail from './screens/PostDetails';
-import CommentScreen from './screens/Comments';
+import SignUpScreen from './screens/SignUp';
+import { AuthProvider, useAuth } from './utils/AuthProvider';
 
 function SplashScreen() {
   return (
@@ -21,41 +20,48 @@ function SplashScreen() {
 function App() {
   const mockData = {
     isFetching: false,
-    isAuth: true,
+    isAuth: false,
   };
 
   const Stack = createNativeStackNavigator();
   const queryClient = new QueryClient();
+  const { isAuthenticated } = useAuth();
 
   if (mockData.isFetching) return <SplashScreen />;
 
+  // Log message every time isAuthenticated changes
+  React.useEffect(() => {
+    console.log('isAuthenticated changed to: ', isAuthenticated);
+  }, [isAuthenticated]);
+
   return (
-    <NavigationContainer>
-      <QueryClientProvider client={queryClient}>
-        <Stack.Navigator>
-          {mockData.isAuth ? (
-            <>
-              <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="PostDetails" component={PostDetail} />
-              <Stack.Screen name="CommentViewer" component={CommentScreen} />
-            </>
-          ) : (
-            <>
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="SignUp"
-                component={SignUpScreen}
-                options={{ headerShown: false }}
-              />
-            </>
-          )}
-        </Stack.Navigator>
-      </QueryClientProvider>
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <QueryClientProvider client={queryClient}>
+          <Stack.Navigator>
+            {isAuthenticated ? (
+              <>
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="PostDetails" component={PostDetail} />
+              </>
+            ) : (
+              <>
+                <Stack.Screen
+                  name="Login"
+                  component={LoginScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="SignUp"
+                  component={SignUpScreen}
+                  options={{ headerShown: false }}
+                />
+              </>
+            )}
+          </Stack.Navigator>
+        </QueryClientProvider>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
 
