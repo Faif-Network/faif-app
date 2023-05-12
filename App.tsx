@@ -8,6 +8,7 @@ import LoginScreen from './screens/Login';
 import SignUpScreen from './screens/SignUp';
 import ChatScreen from './screens/Chat';
 import PostDetail from './screens/PostDetails';
+import CommentScreen from './screens/Comments';
 
 function SplashScreen() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <>
               <Stack.Screen name="Home" component={HomeScreen} />
               <Stack.Screen name="PostDetails" component={PostDetail} />
+              <Stack.Screen name="CommentViewer" component={CommentScreen} />
             </>
           ) : (
             <>

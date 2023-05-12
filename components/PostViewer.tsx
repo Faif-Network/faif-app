@@ -64,7 +64,7 @@ function PostItem({ post }: { post: IPost }) {
             style={styles.icon}
           />
           <TouchableOpacity
-            onPress={() => navigation.navigate('Chat' as never)}
+            onPress={() => navigation.navigate('CommentViewer' as never)}
           >
             <Ionicons
               name="chatbubble-ellipses-outline"
