@@ -8,6 +8,7 @@ import LoginScreen from './screens/Login';
 import PostDetail from './screens/PostDetails';
 import SignUpScreen from './screens/SignUp';
 import { AuthProvider, useAuth } from './utils/AuthProvider';
+import FacultyScreen from './screens/Communities';
 
 function SplashScreen() {
   return (
@@ -20,7 +21,7 @@ function SplashScreen() {
 function App() {
   const mockData = {
     isFetching: false,
-    isAuth: false,
+    isAuth: true,
   };
 
   const Stack = createNativeStackNavigator();
@@ -33,16 +34,17 @@ function App() {
   React.useEffect(() => {
     console.log('isAuthenticated changed to: ', isAuthenticated);
   }, [isAuthenticated]);
-
+  //{isAuthenticated ? (
   return (
     <AuthProvider>
       <NavigationContainer>
         <QueryClientProvider client={queryClient}>
           <Stack.Navigator>
-            {isAuthenticated ? (
+            {mockData.isAuth ? (
               <>
                 <Stack.Screen name="Home" component={HomeScreen} />
                 <Stack.Screen name="PostDetails" component={PostDetail} />
+                <Stack.Screen name="Communities" component={FacultyScreen} />
               </>
             ) : (
               <>
