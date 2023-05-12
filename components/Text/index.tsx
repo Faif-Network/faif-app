@@ -46,14 +46,17 @@ const styles = StyleSheet.create({
   left: {
     alignSelf: 'flex-start',
     marginHorizontal: 8,
+    textAlign: 'left',
   },
   center: {
     alignSelf: 'center',
     marginHorizontal: 8,
+    textAlign: 'center',
   },
   right: {
     alignSelf: 'flex-end',
     marginHorizontal: 8,
+    textAlign: 'right',
   },
   small: {
     fontSize: 12,

@@ -22,7 +22,9 @@ async function fetcher<T>(
   url: string,
   options?: RequestOptions,
 ): Promise<Response<T>> {
-  const headers = options?.headers || {};
+  const headers = options?.headers || {
+    'Content-Type': 'application/json',
+  };
 
   // Check if a token is available in AsyncStorage
   const token = await AsyncStorage.getItem('token');
@@ -39,8 +41,9 @@ async function fetcher<T>(
   });
 
   if (!response.ok) {
+    const message = await response.json().then((data) => data.message);
     const errorResponse: ErrorResponse = {
-      message: 'Something went wrong',
+      message: message || 'Something went wrong',
       status: response.status,
     };
 
