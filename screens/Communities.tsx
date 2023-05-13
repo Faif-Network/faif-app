@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
+import {
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import Text from '../components/Text';
-import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import { SafeAreaView, ScrollView } from 'react-native';
 
 interface Facultad {
   id: string;
@@ -48,73 +54,73 @@ const facultades: Facultad[] = [
   { id: '27', nombre: 'Escuela Universitaria de Magisterio Sagrado Corazón' },
 ];
 
-const PantallaFacultades = () => {
-  const [facultadSeleccionada, setFacultadSeleccionada] = useState<
-    Facultad | undefined
-  >(undefined);
-
-  const onFacultadSeleccionada = (facultad: Facultad) => {
-    setFacultadSeleccionada(facultad);
-  };
-
+const CommunitiesScreen = () => {
+  const screenWidth = Dimensions.get('window').width;
+  const imageWidth = screenWidth / 3 - 20;
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={{
-          uri: 'https://www.grupolarabida.org/wp-content/uploads/2020/10/Espana_UniversidaddeSevilla_US_51_.jpg',
-        }}
-      />
-      <Text value="Selecciona una facultad:" size="large" />
-      <Picker
-        selectedValue={facultadSeleccionada}
-        onValueChange={onFacultadSeleccionada}
-      >
-        {facultades.map((facultad) => (
-          <Picker.Item
-            key={facultad.id}
-            label={facultad.nombre}
-            value={facultad}
-          />
-        ))}
-      </Picker>
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <View style={styles.titleContainer}>
+          <Text value="Selecciona tu facultad:" weight="bold" size="large" />
+        </View>
+        <View style={styles.facultadesContainer}>
+          {facultades.map((facultad) => (
+            <TouchableOpacity
+              key={facultad.id}
+              style={styles.facultadContainer}
+            >
+              <Image
+                style={[styles.facultadImagen, { width: imageWidth }]}
+                source={{
+                  uri: 'https://www.grupolarabida.org/wp-content/uploads/2020/10/Espana_UniversidaddeSevilla_US_51_.jpg',
+                }}
+              />
+              <Text value={facultad.nombre} />
+            </TouchableOpacity>
+          ))}
+        </View>
+        <TouchableOpacity style={styles.button}>
+          <Text value="Finalizar" size="medium" weight="bold" />
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  pickerContainer: {
-    width: '90%',
-    borderWidth: 1,
-    borderColor: '#888',
-    borderRadius: 8,
-    overflow: 'hidden',
-    marginTop: 16,
-  },
-  picker: {
-    width: '100%',
-    height: 40,
+    backgroundColor: '#fff',
     paddingHorizontal: 16,
+    paddingVertical: 8,
   },
-  logoContainer: {
-    marginBottom: 40,
-    borderRadius: 50,
-    width: 100,
-    height: 100,
-    backgroundColor: '#F6F6F6',
-    justifyContent: 'center',
+  titleContainer: {
+    marginVertical: 16,
     alignItems: 'center',
   },
-  logo: {
-    width: 80,
-    height: 80,
+  facultadesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  facultadContainer: {
+    width: '32%',
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  facultadImagen: {
+    height: 100,
+    resizeMode: 'contain',
+    marginBottom: 8,
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    padding: 1,
+    borderRadius: 1,
+    marginTop: 16,
+    alignItems: 'center',
+    width: 100,
   },
 });
 
-export default PantallaFacultades;
+export default CommunitiesScreen;

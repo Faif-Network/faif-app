@@ -47,7 +47,7 @@ function PostItem({ post }: { post: IPost }) {
         {post.text && <Text style={styles.text}>{post.text}</Text>}
         {post.image && (
           <TouchableOpacity
-            onPress={() => navigation.navigate('PostDetails' as never)}
+            onPress={() => navigation.navigate('Communities' as never)}
           >
             <Image
               source={{ uri: post.image }}
