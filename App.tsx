@@ -9,6 +9,9 @@ import PostDetail from './screens/PostDetails';
 import SignUpScreen from './screens/SignUp';
 import { AuthProvider, useAuth } from './utils/AuthProvider';
 import FacultyScreen from './screens/Communities';
+import ProfileScreen from './screens/UserProfile';
+import ChatScreen from './screens/Chat';
+import CommentScreen from './screens/Comments';
 
 function SplashScreen() {
   return (
@@ -45,6 +48,8 @@ function App() {
                 <Stack.Screen name="Home" component={HomeScreen} />
                 <Stack.Screen name="PostDetails" component={PostDetail} />
                 <Stack.Screen name="Communities" component={FacultyScreen} />
+                <Stack.Screen name="Chat" component={ChatScreen} />
+                <Stack.Screen name="Comments" component={CommentScreen} />
               </>
             ) : (
               <>

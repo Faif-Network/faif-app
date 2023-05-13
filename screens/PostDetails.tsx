@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import Text from '../components/Text';
+import CommentsViewer from '../components/CommentViewer';
 
 interface Post {
   avatar: string;
@@ -36,6 +37,9 @@ function PostDetail() {
         </View>
         <Text value={post.text} />
         <Image source={{ uri: post.image }} style={styles.image} />
+      </View>
+      <View>
+        <CommentsViewer />
       </View>
     </View>
   );

@@ -1,101 +1,109 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import Text from '../components/Text';
+import InputText from '../components/Inputs';
+import Button from '../components/Buttons';
 import {
-  FlatList,
-  Text,
-  TextInput,
-  TouchableOpacity,
+  StyleSheet,
   View,
+  ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 interface Message {
-  id: string;
-  content: string;
+  text: string;
+  from: 'me' | 'other';
 }
 
-function ChatScreen() {
-  const [inputValue, setInputValue] = useState<string>('');
-  const [messages, setMessages] = useState<Message[]>([]);
+const ChatScreen = () => {
+  const [message, setMessage] = useState('');
+  const [chatHistory, setChatHistory] = useState<Message[]>([
+    { text: 'Hola, ¿cómo estás?', from: 'me' },
+    { text: 'Bien, gracias. ¿Y tú?', from: 'other' },
+    { text: 'Estoy bien también, gracias', from: 'me' },
+    { text: 'Me alegro', from: 'other' },
+    { text: '¿Qué planes tienes para hoy?', from: 'me' },
+    { text: 'No muchos, ¿tú?', from: 'other' },
+    {
+      text: 'Tengo que trabajar un poco, pero luego no tengo planes',
+      from: 'me',
+    },
+  ]);
 
-  useEffect(() => {
-    // Simulación de mensajes existentes
-    setMessages([
-      { id: '1', content: 'Hola, ¿cómo estás?' },
-      { id: '2', content: 'Muy bien, gracias. ¿Y tú?' },
-      { id: '3', content: 'Bien, ¿como llevas los exámenes?' },
-    ]);
-  }, []);
-
-  const handleSend = () => {
-    if (inputValue === '') {
-      return;
+  const handleSendMessage = () => {
+    if (message.trim() !== '') {
+      setChatHistory([...chatHistory, { text: message, from: 'me' }]);
+      setMessage('');
     }
-
-    const newMessage: Message = {
-      id: Math.random().toString(36).slice(2, 11),
-      content: inputValue,
-    };
-
-    setMessages([...messages, newMessage]);
-    setInputValue('');
   };
 
-  const renderItem = ({ item }: { item: Message }) => (
-    <View
-      style={{
-        backgroundColor: 'lightgrey',
-        padding: 10,
-        borderRadius: 10,
-        marginTop: 5,
-        alignSelf: 'flex-start',
-      }}
-    >
-      <Text>{item.content}</Text>
-    </View>
-  );
-
   return (
-    <View style={{ flex: 1 }}>
-      <FlatList
-        data={messages}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        inverted
-      />
-
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          backgroundColor: 'white',
-          padding: 10,
-        }}
-      >
-        <TextInput
-          style={{
-            flex: 1,
-            marginRight: 10,
-            borderRadius: 10,
-            backgroundColor: 'lightgrey',
-            padding: 10,
-          }}
-          value={inputValue}
-          onChangeText={setInputValue}
-          placeholder="Escribe un mensaje"
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+      <ScrollView contentContainerStyle={styles.container}>
+        {chatHistory.map((message, index) => {
+          const isMe = message.from === 'me';
+          const containerStyle = isMe
+            ? [styles.messageContainer, styles.rightContainer]
+            : [styles.messageContainer, styles.leftContainer];
+          const textStyle = isMe
+            ? [styles.messageText, styles.rightText]
+            : [styles.messageText, styles.leftText];
+          return (
+            <View key={index} style={containerStyle}>
+              <Text value={message.text} />
+            </View>
+          );
+        })}
+      </ScrollView>
+      <View style={styles.footer}>
+        <InputText
+          placeholder="Escribe un mensaje..."
+          value={message}
+          onChangeText={setMessage}
         />
-
-        <TouchableOpacity
-          style={{
-            backgroundColor: 'lightblue',
-            padding: 10,
-            borderRadius: 10,
-          }}
-          onPress={handleSend}
-        >
-          <Text style={{ color: 'white' }}>Enviar</Text>
-        </TouchableOpacity>
+        <Button title="Enviar" onPress={handleSendMessage} primary />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    padding: 16,
+    paddingBottom: 80, // para dejar espacio para el footer
+  },
+  messageContainer: {
+    padding: 8,
+    borderRadius: 8,
+    maxWidth: '80%',
+    marginBottom: 8,
+  },
+  leftContainer: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#ddd',
+  },
+  rightContainer: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#007AFF',
+  },
+  messageText: {
+    color: '#000',
+    marginHorizontal: 8,
+  },
+  leftText: {},
+  rightText: {
+    color: '#fff',
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
+  },
+});
 
 export default ChatScreen;

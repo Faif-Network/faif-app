@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import Text from '../components/Text';
 import useForm from '../utils/useForm';
 import Button from '../components/Buttons';
+import useProfile, { IUpdateProfileRequest } from '../api/hooks/useProfile';
 
 interface Props {}
 
@@ -11,11 +12,11 @@ const ProfileScreen: React.FC<Props> = () => {
 
   const { handleLogin, isLoading } = useProfile();
 
-  const onSubmit = async (values: IProfileRequest) => {
+  const onSubmit = async (values: IUpdateProfileRequest) => {
     await handleLogin(values);
   };
 
-  const form = useForm<IProfileRequest>({
+  const form = useForm<IUpdateProfileRequest>({
     initialValues: {
       email: '',
       password: '',
