@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
-import Text from '../components/Text';
+import { Image, StyleSheet, View } from 'react-native';
 import CommentsViewer from '../components/CommentViewer';
+import Text from '../components/Text';
 
 interface Post {
   avatar: string;
@@ -11,19 +11,8 @@ interface Post {
   image: string;
 }
 
-function PostDetail() {
-  const posts: Post[] = [
-    {
-      avatar:
-        'https://media.licdn.com/dms/image/D4D03AQE3dTy4ZRZafg/profile-displayphoto-shrink_400_400/0/1678395006979?e=1688601600&v=beta&t=EKky14DKQlfDN1RITMnlZqEkXsbFqEwwgK5y5RcuE9E',
-      name: 'Paula Leal',
-      timestamp: '2023-05-02T10:00:00Z',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      image: 'https://picsum.photos/400/400',
-    },
-  ];
-
-  const post = posts[0];
+function PostDetail({ route }: { route: any }) {
+  const { post } = route.params as { post: Post };
 
   return (
     <View style={styles.container}>
@@ -50,7 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'white',
   },
   postContainer: {
     width: '100%',

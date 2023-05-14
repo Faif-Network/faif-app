@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import Text from '../components/Text';
 import InputText from '../components/Inputs';
+import Text from '../components/Text';
 
 interface IComment {
   id: string;
@@ -48,17 +48,16 @@ const CommentsViewer: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text value="Comentarios" size="large" weight="bold" />
-      </View>
       {comments.length === 0 ? (
-        <Text value="No hay comentarios" size="medium" />
+        <Text size="medium" value="No hay comentarios" />
       ) : (
         comments.map((comment) => (
           <View style={styles.commentContainer} key={comment.id}>
             <Image source={{ uri: comment.avatar }} style={styles.avatar} />
-            <Text value={`${comment.author}:`} size="medium" weight="bold" />
-            <Text value={comment.text} size="medium" />
+            <View style={styles.commentContent}>
+              <Text value={`${comment.author}:`} size="medium" weight="bold" />
+              <Text value={comment.text} size="medium" />
+            </View>
           </View>
         ))
       )}
@@ -82,12 +81,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  header: {
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    alignItems: 'center',
-  },
   noCommentsText: {
     fontStyle: 'italic',
     marginTop: 16,
@@ -97,7 +90,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 30,
     height: 30,
-    borderRadius: 25,
+    borderRadius: 15,
     marginRight: 16,
   },
   commentContainer: {
@@ -112,12 +105,14 @@ const styles = StyleSheet.create({
   },
   commentAuthor: {
     marginRight: 8,
+    fontWeight: 'bold',
   },
   commentText: {},
   inputContainer: {
+    flex: 1,
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'flex-end',
-    alignContent: 'flex-end',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderTopWidth: 1,

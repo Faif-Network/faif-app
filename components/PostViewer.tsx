@@ -5,10 +5,10 @@ import {
   FlatList,
   Image,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import Text from './Text';
 
 interface IPost {
   avatar: string;
@@ -27,15 +27,16 @@ function PostItem({ post }: { post: IPost }) {
       <View style={styles.content}>
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <Text style={styles.name}>{post.name}</Text>
-            <Text style={styles.timestamp}>
-              {new Date(post.timestamp).toLocaleDateString('en-US', {
+            <Text value={post.name} weight="bold" />
+            <Text
+              value={new Date(post.timestamp).toLocaleDateString('en-US', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
               })}
-            </Text>
+              size="small"
+            />
           </View>
           <Ionicons
             name={'ellipsis-horizontal-outline'}
@@ -44,18 +45,20 @@ function PostItem({ post }: { post: IPost }) {
             style={{ marginRight: 16 }}
           />
         </View>
-        {post.text && <Text style={styles.text}>{post.text}</Text>}
-        {post.image && (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Communities' as never)}
-          >
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('PostDetails' as never, { post } as never)
+          }
+        >
+          {post.text && <Text value={post.text} />}
+          {post.image && (
             <Image
               source={{ uri: post.image }}
               style={styles.image}
               resizeMode="cover"
             />
-          </TouchableOpacity>
-        )}
+          )}
+        </TouchableOpacity>
         <View style={styles.footer}>
           <Ionicons
             name="heart-outline"

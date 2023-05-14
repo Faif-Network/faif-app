@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  View,
+  Dimensions,
   Image,
+  SafeAreaView,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
+  View,
 } from 'react-native';
 import Text from '../components/Text';
-import { SafeAreaView, ScrollView } from 'react-native';
 
 interface Facultad {
   id: string;
@@ -75,7 +75,12 @@ const CommunitiesScreen = () => {
                   uri: 'https://www.grupolarabida.org/wp-content/uploads/2020/10/Espana_UniversidaddeSevilla_US_51_.jpg',
                 }}
               />
-              <Text value={facultad.nombre} />
+              <Text
+                value={facultad.nombre}
+                align="center"
+                size="small"
+                weight="bold"
+              />
             </TouchableOpacity>
           ))}
         </View>

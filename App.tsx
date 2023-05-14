@@ -1,17 +1,16 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, View } from 'react-native';
+import { AuthContext, AuthProvider } from './context/AuthContext';
+import ChatScreen from './screens/Chat';
+import CommentScreen from './screens/Comments';
+import CommunityScreen from './screens/Communities';
 import HomeScreen from './screens/Home';
 import LoginScreen from './screens/Login';
 import PostDetail from './screens/PostDetails';
 import SignUpScreen from './screens/SignUp';
-import { AuthProvider, useAuth } from './utils/AuthProvider';
-import FacultyScreen from './screens/Communities';
-import ProfileScreen from './screens/UserProfile';
-import ChatScreen from './screens/Chat';
-import CommentScreen from './screens/Comments';
 
 function SplashScreen() {
   return (
@@ -29,25 +28,19 @@ function App() {
 
   const Stack = createNativeStackNavigator();
   const queryClient = new QueryClient();
-  const { isAuthenticated } = useAuth();
+  const { auth } = useContext(AuthContext);
 
   if (mockData.isFetching) return <SplashScreen />;
 
-  // Log message every time isAuthenticated changes
-  React.useEffect(() => {
-    console.log('isAuthenticated changed to: ', isAuthenticated);
-  }, [isAuthenticated]);
-  //{isAuthenticated ? (
   return (
     <AuthProvider>
       <NavigationContainer>
         <QueryClientProvider client={queryClient}>
           <Stack.Navigator>
-            {mockData.isAuth ? (
+            {auth ? (
               <>
                 <Stack.Screen name="Home" component={HomeScreen} />
                 <Stack.Screen name="PostDetails" component={PostDetail} />
-                <Stack.Screen name="Communities" component={FacultyScreen} />
                 <Stack.Screen name="Chat" component={ChatScreen} />
                 <Stack.Screen name="Comments" component={CommentScreen} />
               </>
@@ -61,6 +54,11 @@ function App() {
                 <Stack.Screen
                   name="SignUp"
                   component={SignUpScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Communities"
+                  component={CommunityScreen}
                   options={{ headerShown: false }}
                 />
               </>

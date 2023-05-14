@@ -1,7 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { AuthContext } from '../../../utils/AuthProvider';
+import { AuthContext } from '../../../context/AuthContext';
 import fetcher from '../../fetcher';
 
 export interface ILoginRequest {
@@ -25,21 +24,16 @@ const login = async (request: ILoginRequest): Promise<ILoginResponse> => {
 
 const useLogin = () => {
   const queryClient = useQueryClient();
-  const { setIsAuthenticated, isAuthenticated } = useContext(AuthContext);
+  const { setAuth } = useContext(AuthContext);
 
   const loginMutation = useMutation<ILoginResponse, Error, ILoginRequest>(
     (request) => login(request),
     {
       onSuccess: async (data) => {
         // Guardamos el token en el local storage
-        await AsyncStorage.setItem('token', data.data.access_token);
+        const token = data.data.access_token;
+        await setAuth(token);
         await queryClient.invalidateQueries();
-
-        const token = await AsyncStorage.getItem('token');
-        if (token) {
-          setIsAuthenticated(true);
-          console.log('isAuthenticated', isAuthenticated);
-        }
       },
     },
   );
