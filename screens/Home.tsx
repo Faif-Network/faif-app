@@ -1,40 +1,12 @@
 import React from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
-import PostViewer from '../components/Post/PostViewer';
+import { SafeAreaView, ScrollView, View } from 'react-native';
+import { useFeed } from '../api/hooks/feed/useFeed';
+import PostListViewer from '../components/Post/PostListViewer';
 import Stories from '../components/Stories/Stories';
+import Text from '../components/UI/Text';
 
 function HomeScreen() {
-  const posts = [
-    {
-      avatar:
-        'https://media.licdn.com/dms/image/D4D03AQE3dTy4ZRZafg/profile-displayphoto-shrink_400_400/0/1678395006979?e=1688601600&v=beta&t=EKky14DKQlfDN1RITMnlZqEkXsbFqEwwgK5y5RcuE9E',
-      name: 'Paula Leal',
-      timestamp: '2023-05-02T10:00:00Z',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      timestamp: '2023-05-01T12:00:00Z',
-      text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      timestamp: '2023-05-01T12:00:00Z',
-      text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      timestamp: '2023-05-01T12:00:00Z',
-      text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      image: 'https://picsum.photos/400/400',
-    },
-  ];
+  const { feed } = useFeed();
 
   const stories = [
     {
@@ -86,9 +58,27 @@ function HomeScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1, backgroundColor: '#FFF' }}>
         <Stories stories={stories} />
-        <PostViewer posts={posts} />
+        {feed?.data ? (
+          <PostListViewer posts={feed.data} />
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 500,
+            }}
+          >
+            <Text
+              value="No hay publicaciones para mostrar"
+              size="medium"
+              weight="bold"
+              align="center"
+            />
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

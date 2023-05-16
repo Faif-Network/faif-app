@@ -1,36 +1,37 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
+import { IPost } from '../../api/hooks/feed/useFeed';
 import CommentsViewer from '../../components/Comments/CommentViewer';
 import Text from '../../components/UI/Text';
+import { formatDate } from '../../utils/date';
 
-interface Post {
-  avatar: string;
-  name: string;
-  timestamp: string;
-  text: string;
-  image: string;
-}
-
-function PostDetail({ route }: { route: any }) {
-  const { post } = route.params as { post: Post };
+function PostDetailScreen({ route }: { route: any }) {
+  const { post } = route.params as { post: IPost };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.postContainer}>
         <View style={styles.userContainer}>
-          <Image source={{ uri: post.avatar }} style={styles.avatar} />
+          <Image
+            source={{
+              uri: post?.user?.avatar,
+            }}
+            style={styles.avatar}
+          />
           <View style={styles.nameContainer}>
-            <Text value={post.name} weight="bold" />
-            <Text value={post.timestamp} size="small" />
+            <Text value={post?.user?.username} weight="bold" />
+            <Text value={formatDate(post.created_at)} size="small" />
           </View>
         </View>
-        <Text value={post.text} />
-        <Image source={{ uri: post.image }} style={styles.image} />
+        <Text value={post.content} />
+        {post.attachment && (
+          <Image source={{ uri: post?.attachment }} style={styles.image} />
+        )}
       </View>
       <View>
         <CommentsViewer />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -80,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostDetail;
+export default PostDetailScreen;

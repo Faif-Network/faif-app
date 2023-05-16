@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import InputText from '../UI/Inputs';
 import Text from '../UI/Text';
 
@@ -12,22 +19,10 @@ interface IComment {
 
 const CommentsViewer: React.FC = () => {
   const [comments, setComments] = useState<IComment[]>([
-    {
-      id: '1',
-      author: 'John Doe',
-      text: '¡Este es un comentario de ejemplo!',
-      avatar:
-        'https://media.licdn.com/dms/image/D4D03AQE3dTy4ZRZafg/profile-displayphoto-shrink_400_400/0/1678395006979?e=1688601600&v=beta&t=EKky14DKQlfDN1RITMnlZqEkXsbFqEwwgK5y5RcuE9E',
-    },
-    {
-      id: '2',
-      author: 'Jane Smith',
-      text: 'Este es otro comentario de ejemplo',
-      avatar:
-        'https://media.licdn.com/dms/image/D4D03AQE3dTy4ZRZafg/profile-displayphoto-shrink_400_400/0/1678395006979?e=1688601600&v=beta&t=EKky14DKQlfDN1RITMnlZqEkXsbFqEwwgK5y5RcuE9E',
-    },
+    // Comentarios de ejemplo
   ]);
   const [newComment, setNewComment] = useState<string>('');
+
   const handleAddComment = () => {
     if (newComment.trim() === '') {
       return;
@@ -47,32 +42,51 @@ const CommentsViewer: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {comments.length === 0 ? (
-        <Text size="medium" value="No hay comentarios" />
-      ) : (
-        comments.map((comment) => (
-          <View style={styles.commentContainer} key={comment.id}>
-            <Image source={{ uri: comment.avatar }} style={styles.avatar} />
-            <View style={styles.commentContent}>
-              <Text value={`${comment.author}:`} size="medium" weight="bold" />
-              <Text value={comment.text} size="medium" />
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <View style={styles.commentsContainer}>
+        {comments.length === 0 ? (
+          <Text
+            size="medium"
+            value="No hay comentarios"
+            style={styles.noCommentsText}
+          />
+        ) : (
+          comments.map((comment, index) => (
+            <View style={styles.commentContainer} key={index}>
+              <Image source={{ uri: comment.avatar }} style={styles.avatar} />
+              <View style={styles.commentContent}>
+                <Text
+                  value={`${comment.author}:`}
+                  size="medium"
+                  weight="bold"
+                />
+                <Text value={comment.text} size="medium" />
+              </View>
             </View>
-          </View>
-        ))
-      )}
+          ))
+        )}
+      </View>
       <View style={styles.inputContainer}>
         <InputText
           placeholder="Escribe tu comentario..."
           value={newComment}
           onChangeText={setNewComment}
           isPassword={false}
+          style={styles.input}
         />
         <TouchableOpacity style={styles.button} onPress={handleAddComment}>
-          <Text value="Enviar" size="medium" weight="bold" />
+          <Text
+            value="Enviar"
+            size="medium"
+            weight="bold"
+            style={styles.buttonText}
+          />
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -81,10 +95,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  commentsContainer: {
+    flex: 1,
+    paddingTop: 16,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+  },
   noCommentsText: {
     fontStyle: 'italic',
-    marginTop: 16,
-    marginHorizontal: 16,
     textAlign: 'center',
   },
   avatar: {
@@ -95,7 +113,6 @@ const styles = StyleSheet.create({
   },
   commentContainer: {
     flexDirection: 'row',
-    paddingHorizontal: 16,
     paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
@@ -103,13 +120,7 @@ const styles = StyleSheet.create({
   commentContent: {
     flex: 1,
   },
-  commentAuthor: {
-    marginRight: 8,
-    fontWeight: 'bold',
-  },
-  commentText: {},
   inputContainer: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',

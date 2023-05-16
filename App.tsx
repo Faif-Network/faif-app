@@ -12,7 +12,7 @@ import SignUpScreen from './screens/Auth/SignUp';
 import ChatScreen from './screens/Chat/Chat';
 import ChatListScreen from './screens/Chat/ChatList';
 import CommentScreen from './screens/Feed/Comments';
-import PostDetail from './screens/Feed/PostDetails';
+import PostDetailScreen from './screens/Feed/PostDetails';
 import UploadScreen from './screens/Feed/UploadPost';
 import HomeScreen from './screens/Home';
 
@@ -60,7 +60,7 @@ function MainScreens() {
           title: 'Faif',
         }}
       />
-      <Stack.Screen name="PostDetails" component={PostDetail} />
+      <Stack.Screen name="PostDetails" component={PostDetailScreen} />
       <Stack.Screen name="ChatView" component={ChatScreen} />
       <Stack.Screen name="Comments" component={CommentScreen} />
     </Stack.Navigator>

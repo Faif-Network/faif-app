@@ -1,42 +1,28 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { IPost } from '../../api/hooks/feed/useFeed';
+import { formatDate } from '../../utils/date';
 import Text from '../UI/Text';
-
-interface IPost {
-  avatar: string;
-  name: string;
-  timestamp: string;
-  text?: string;
-  image?: string;
-}
 
 function PostItem({ post }: { post: IPost }) {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.postItem}>
-      <Image source={{ uri: post.avatar }} style={styles.avatar} />
+    <SafeAreaView style={styles.postItem}>
+      <Image
+        source={{
+          uri: post?.user?.avatar,
+        }}
+        style={styles.avatar}
+      />
       <View style={styles.content}>
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <Text value={post.name} weight="bold" />
-            <Text
-              value={new Date(post.timestamp).toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-              size="small"
-            />
+            <Text value={post?.user?.username} weight="bold" />
+            <Text value={formatDate(post.created_at)} size="small" />
           </View>
           <Ionicons
             name={'ellipsis-horizontal-outline'}
@@ -50,10 +36,10 @@ function PostItem({ post }: { post: IPost }) {
             navigation.navigate('PostDetails' as never, { post } as never)
           }
         >
-          {post.text && <Text value={post.text} />}
-          {post.image && (
+          {post.content && <Text value={post.content} />}
+          {post.attachment && (
             <Image
-              source={{ uri: post.image }}
+              source={{ uri: post.attachment }}
               style={styles.image}
               resizeMode="cover"
             />
@@ -78,26 +64,9 @@ function PostItem({ post }: { post: IPost }) {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
-
-function PostViewer({ posts }: { posts: IPost[] }) {
-  const renderItem = ({ item }: { item: IPost }) => <PostItem post={item} />;
-
-  return (
-    <FlatList
-      data={posts}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.timestamp}
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-    />
-  );
-}
-
-export default PostViewer;
 
 const styles = StyleSheet.create({
   container: {
@@ -159,3 +128,5 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
 });
+
+export default PostItem;

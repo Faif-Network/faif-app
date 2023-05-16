@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text as TextRN } from 'react-native';
+import { StyleProp, StyleSheet, Text as TextRN, TextStyle } from 'react-native';
 interface TextProps {
-  value: string;
+  value?: string;
   align?: 'left' | 'center' | 'right';
   size?: 'small' | 'medium' | 'large';
   weight?: 'light' | 'regular' | 'bold';
   onPress?: () => void;
+  style?: StyleProp<TextStyle>;
 }
 
 const Text = (props: TextProps) => {
@@ -30,6 +31,15 @@ const Text = (props: TextProps) => {
       </TextRN>
     );
 
+  if (props.style)
+    return (
+      <TextRN
+        style={[styles.text, alignStyle, sizeStyle, weightStyle, props.style]}
+      >
+        {value}
+      </TextRN>
+    );
+
   return (
     <TextRN style={[styles.text, alignStyle, sizeStyle, weightStyle]}>
       {value}
@@ -40,7 +50,7 @@ const Text = (props: TextProps) => {
 const styles = StyleSheet.create({
   text: {
     color: '#000',
-    padding: 4,
+    marginBottom: 14,
   },
   left: {
     alignSelf: 'flex-start',

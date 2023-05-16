@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button,
-  Image,
   SafeAreaView,
   StyleSheet,
-  Switch,
-  Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import useCreatePost, {
+  ICreatePostRequest,
+} from '../../api/hooks/feed/useCreatePost';
+import useForm from '../../utils/useForm';
 
 interface PostFormProps {
   onSubmit: (post: Post) => void;
@@ -20,27 +22,20 @@ interface Post {
   isPublic: boolean;
 }
 
-const NewPost: React.FC<PostFormProps> = ({ onSubmit }) => {
-  const [message, setMessage] = useState('');
-  const [image, setImage] = useState<string | undefined>(undefined);
-  const [isPublic, setIsPublic] = useState(true);
+const NewPost: React.FC<PostFormProps> = () => {
+  const { handleCreatePost, isLoading } = useCreatePost();
 
-  const handleImagePicker = () => {
-    // Implement your own image picker logic here
+  const onSubmit = async (post: ICreatePostRequest) => {
+    await handleCreatePost(post);
   };
 
-  const handleSubmit = () => {
-    const post: Post = {
-      message,
-      image,
-      isPublic,
-    };
-
-    onSubmit(post);
-    setMessage('');
-    setImage(undefined);
-    setIsPublic(true);
-  };
+  const form = useForm<ICreatePostRequest>({
+    initialValues: {
+      attachment: '',
+      content: '',
+    },
+    onSubmit,
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,20 +45,16 @@ const NewPost: React.FC<PostFormProps> = ({ onSubmit }) => {
         multiline
         numberOfLines={4}
         maxLength={280}
-        value={message}
-        onChangeText={setMessage}
+        onChangeText={(value) => form.handleChange('content', value)}
       />
-      {image && <Image source={{ uri: image }} style={styles.image} />}
-      <Button title="Añadir imagen" onPress={handleImagePicker} />
-      <View style={styles.switchContainer}>
-        <Text style={[styles.switchText, { marginEnd: 4 }]}>Privacidad:</Text>
-        <Switch value={isPublic} onValueChange={setIsPublic} />
-        <Text style={styles.switchText}>
-          {isPublic ? 'Público' : 'Privado'}
-        </Text>
-      </View>
       <View style={styles.footer}>
-        <Button title="Publicar" onPress={handleSubmit} />
+        <TouchableOpacity
+          onPress={() => form.handleSubmit()}
+          disabled={isLoading}
+          style={{ flex: 1, width: '100%' }}
+        >
+          <Button title="Publicar" onPress={() => form.handleSubmit()} />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

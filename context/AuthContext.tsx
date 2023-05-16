@@ -41,8 +41,6 @@ const AuthProvider = ({ children }: { children: any }) => {
         console.log('[AuthContext] Token found');
         dispatch({ type: 'LOGIN' });
         navigate.navigate('Home' as never);
-      } else {
-        navigate.navigate('Login' as never);
       }
     };
     checkToken();

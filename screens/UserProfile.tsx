@@ -1,6 +1,8 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import useProfile, { IUpdateProfileRequest } from '../api/hooks/useProfile';
+import useProfile, {
+  IUpdateProfileRequest,
+} from '../api/hooks/profile/useProfile';
 import Button from '../components/UI/Buttons';
 import Text from '../components/UI/Text';
 import useForm from '../utils/useForm';
