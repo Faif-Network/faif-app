@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Text from '../components/Text';
+import Text from '../../components/UI/Text';
 
 interface Facultad {
   id: string;

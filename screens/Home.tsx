@@ -1,7 +1,7 @@
-import React from 'react'
-import { SafeAreaView, ScrollView } from 'react-native'
-import PostViewer from '../components/PostViewer'
-import Stories from '../components/Stories'
+import React from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
+import PostViewer from '../components/Post/PostViewer';
+import Stories from '../components/Stories/Stories';
 
 function HomeScreen() {
   const posts = [
@@ -34,7 +34,7 @@ function HomeScreen() {
       text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       image: 'https://picsum.photos/400/400',
     },
-  ]
+  ];
 
   const stories = [
     {
@@ -82,7 +82,7 @@ function HomeScreen() {
       name: 'Jane Doe',
       image: 'https://picsum.photos/400/400',
     },
-  ]
+  ];
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -91,7 +91,7 @@ function HomeScreen() {
         <PostViewer posts={posts} />
       </ScrollView>
     </SafeAreaView>
-  )
+  );
 }
 
-export default HomeScreen
+export default HomeScreen;

@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
-import Text from '../components/Text';
-import useForm from '../utils/useForm';
-import Button from '../components/Buttons';
+import { Image, StyleSheet, View } from 'react-native';
 import useProfile, { IUpdateProfileRequest } from '../api/hooks/useProfile';
+import Button from '../components/UI/Buttons';
+import Text from '../components/UI/Text';
+import useForm from '../utils/useForm';
 
 interface Props {}
 

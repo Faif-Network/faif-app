@@ -1,15 +1,15 @@
-import React from 'react'
-import { StyleSheet, TextInput } from 'react-native'
+import React from 'react';
+import { StyleSheet, TextInput } from 'react-native';
 
 interface InputProps {
-  placeholder: string
-  isPassword?: boolean
-  value?: string
-  onChangeText?: (text: string) => void
+  placeholder: string;
+  isPassword?: boolean;
+  value?: string;
+  onChangeText?: (text: string) => void;
 }
 
 const InputText = (props: InputProps) => {
-  const { placeholder, value, onChangeText } = props
+  const { placeholder, value, onChangeText } = props;
   return (
     <TextInput
       style={styles.input}
@@ -18,8 +18,8 @@ const InputText = (props: InputProps) => {
       onChangeText={onChangeText}
       secureTextEntry={props.isPassword}
     />
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   input: {
@@ -31,6 +31,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
   },
-})
+});
 
-export default InputText
+export default InputText;

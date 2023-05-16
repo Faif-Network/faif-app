@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Text from './Text';
+import Text from '../UI/Text';
 
 interface IPost {
   avatar: string;

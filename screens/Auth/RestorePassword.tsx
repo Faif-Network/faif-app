@@ -1,12 +1,12 @@
-import { useNavigation } from '@react-navigation/native'
-import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
-import Button from '../components/Buttons'
-import InputText from '../components/Inputs'
-import Text from '../components/Text'
+import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { Image, StyleSheet, View } from 'react-native';
+import Button from '../../components/UI/Buttons';
+import InputText from '../../components/UI/Inputs';
+import Text from '../../components/UI/Text';
 
 export default function RestorePassword() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -16,17 +16,22 @@ export default function RestorePassword() {
           uri: 'https://i.imgur.com/Y6eoxWl.png',
         }}
       />
-      <Text value="Restaura tu contraseña" size="large" weight="bold" align="center" />
+      <Text
+        value="Restaura tu contraseña"
+        size="large"
+        weight="bold"
+        align="center"
+      />
       <InputText placeholder="Correo electrónico" />
       <Button
         title="Restaurar"
         primary={true}
         onPress={() => {
-          navigation.navigate('Login' as never)
+          navigation.navigate('Login' as never);
         }}
       />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -49,4 +54,4 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
   },
-})
+});

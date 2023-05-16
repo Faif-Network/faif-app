@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Text from '../components/Text';
-import InputText from '../components/Inputs';
-import Button from '../components/Buttons';
 import {
-  StyleSheet,
-  View,
-  ScrollView,
   KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
+import Text from '../../components/UI/Text';
 
 interface Message {
   text: string;
@@ -46,7 +46,7 @@ const ChatScreen = () => {
             : [styles.messageContainer, styles.leftContainer];
           const textStyle = isMe
             ? [styles.messageText, styles.rightText]
-            : [styles.messageText, styles.leftText];
+            : [styles.messageText];
           return (
             <View key={index} style={containerStyle}>
               <Text value={message.text} />
@@ -55,12 +55,15 @@ const ChatScreen = () => {
         })}
       </ScrollView>
       <View style={styles.footer}>
-        <InputText
+        <TextInput
           placeholder="Escribe un mensaje..."
           value={message}
           onChangeText={setMessage}
+          style={styles.sendText}
         />
-        <Button title="Enviar" onPress={handleSendMessage} primary />
+        <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+          <Text value={'Enviar'} />
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
@@ -80,22 +83,30 @@ const styles = StyleSheet.create({
   },
   leftContainer: {
     alignSelf: 'flex-start',
-    backgroundColor: '#ddd',
+    backgroundColor: '#C9DFFF',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 8,
+    maxWidth: '80%',
   },
   rightContainer: {
     alignSelf: 'flex-end',
-    backgroundColor: '#007AFF',
+    backgroundColor: '#5D88FF',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 8,
+    maxWidth: '80%',
   },
   messageText: {
     color: '#000',
     marginHorizontal: 8,
   },
-  leftText: {},
   rightText: {
     color: '#fff',
   },
   footer: {
     position: 'absolute',
+    flexDirection: 'row',
     bottom: 0,
     width: '100%',
     paddingHorizontal: 16,
@@ -103,6 +114,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#ccc',
+  },
+  sendText: {
+    color: '#5D88FF',
+    fontSize: 16,
+    width: '80%',
+  },
+  sendButton: {
+    marginLeft: 8,
+    width: '20%',
+    backgroundColor: '#C9DFFF',
+    borderRadius: 8,
   },
 });
 

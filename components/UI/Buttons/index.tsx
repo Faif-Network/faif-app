@@ -1,18 +1,18 @@
-import React from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 interface ButtonProps {
-  title: string
-  onPress: () => void
-  primary?: boolean
-  isLoading?: boolean
+  title: string;
+  onPress: () => void;
+  primary?: boolean;
+  isLoading?: boolean;
 }
 
 const Button = (props: ButtonProps) => {
-  const { title, onPress, primary } = props
-  const buttonStyle = primary ? styles.primaryButton : styles.secondaryButton
-  const textStyle = primary ? styles.primaryText : styles.secondaryText
-  const disabledStyle = props.isLoading ? { opacity: 0.5 } : {}
+  const { title, onPress, primary } = props;
+  const buttonStyle = primary ? styles.primaryButton : styles.secondaryButton;
+  const textStyle = primary ? styles.primaryText : styles.secondaryText;
+  const disabledStyle = props.isLoading ? { opacity: 0.5 } : {};
 
   return (
     <TouchableOpacity
@@ -28,8 +28,8 @@ const Button = (props: ButtonProps) => {
         )}
       </Text>
     </TouchableOpacity>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   basicButton: {
@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
   },
-})
+});
 
-export default Button
+export default Button;

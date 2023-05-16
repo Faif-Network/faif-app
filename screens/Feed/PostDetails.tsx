@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import CommentsViewer from '../components/CommentViewer';
-import Text from '../components/Text';
+import CommentsViewer from '../../components/Comments/CommentViewer';
+import Text from '../../components/UI/Text';
 
 interface Post {
   avatar: string;

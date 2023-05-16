@@ -1,24 +1,23 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import useRegister, { IRegisterRequest } from '../api/hooks/auth/useRegister';
-import Button from '../components/Buttons';
-import InputText from '../components/Inputs';
-import Text from '../components/Text';
-import useForm from '../utils/useForm';
+import useLogin, { ILoginRequest } from '../../api/hooks/auth/useLogin';
+import Button from '../../components/UI/Buttons';
+import InputText from '../../components/UI/Inputs';
+import Text from '../../components/UI/Text';
+import useForm from '../../utils/useForm';
 
-export default function SignUpScreen() {
+export default function LoginScreen() {
   const navigation = useNavigation();
 
-  const { handleRegister, isLoading } = useRegister();
+  const { handleLogin, isLoading } = useLogin();
 
-  const onSubmit = async (values: IRegisterRequest) => {
-    await handleRegister(values);
+  const onSubmit = async (values: ILoginRequest) => {
+    await handleLogin(values);
   };
 
-  const form = useForm<IRegisterRequest>({
+  const form = useForm<ILoginRequest>({
     initialValues: {
-      username: '',
       email: '',
       password: '',
     },
@@ -33,24 +32,7 @@ export default function SignUpScreen() {
           uri: 'https://i.imgur.com/Y6eoxWl.png',
         }}
       />
-      <Text
-        value="Crea una nueva cuenta"
-        size="large"
-        weight="bold"
-        align="center"
-      />
-      <Text
-        value="Bienvenido a Faif, rellena el siguiente formulario para poder registrarte y formar parte de
-        esta comunidad"
-        size="small"
-        weight="light"
-        align="center"
-      />
-      <Text value="Registrate" size="medium" weight="bold" align="center" />
-      <InputText
-        placeholder="Nombre de usuario"
-        onChangeText={(value) => form.handleChange('username', value)}
-      />
+      <Text value="Iniciar sesión" size="large" weight="bold" align="center" />
       <InputText
         placeholder="Correo electrónico"
         onChangeText={(value) => form.handleChange('email', value)}
@@ -60,8 +42,14 @@ export default function SignUpScreen() {
         isPassword={true}
         onChangeText={(value) => form.handleChange('password', value)}
       />
+      <Text
+        value="¿Olvidaste tu contraseña?"
+        size="small"
+        align="right"
+        onPress={() => navigation.navigate('RestorePassword' as never)}
+      />
       <Button
-        title="Registrate"
+        title="Iniciar sesión"
         primary={true}
         onPress={() => {
           form.handleSubmit();
@@ -69,10 +57,10 @@ export default function SignUpScreen() {
         isLoading={isLoading}
       />
       <Text
-        value="Ya tienes cuenta? Inicia sesión"
+        value="¿No tienes cuenta? Regístrate"
         size="small"
         align="center"
-        onPress={() => navigation.navigate('Login' as never)}
+        onPress={() => navigation.navigate('SignUp' as never)}
       />
     </View>
   );
@@ -97,5 +85,29 @@ const styles = StyleSheet.create({
   logo: {
     width: 80,
     height: 80,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    width: '80%',
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    padding: 10,
+    marginBottom: 10,
+  },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    marginBottom: 20,
+    marginRight: 20,
+  },
+  forgotPasswordText: {
+    color: '#007AFF',
+    textDecorationLine: 'underline',
+    marginLeft: 10,
   },
 });

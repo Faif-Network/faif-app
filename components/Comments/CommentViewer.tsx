@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import InputText from '../components/Inputs';
-import Text from '../components/Text';
+import InputText from '../UI/Inputs';
+import Text from '../UI/Text';
 
 interface IComment {
   id: string;
