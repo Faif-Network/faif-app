@@ -1,16 +1,22 @@
-import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import useCreatePost, {
   ICreatePostRequest,
 } from '../../api/hooks/feed/useCreatePost';
 import useForm from '../../utils/useForm';
+import Text from '../UI/Text';
 
 interface PostFormProps {
   onSubmit: (post: Post) => void;
@@ -23,10 +29,13 @@ interface Post {
 }
 
 const NewPost: React.FC<PostFormProps> = () => {
+  const navigation = useNavigation();
   const { handleCreatePost, isLoading } = useCreatePost();
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
 
   const onSubmit = async (post: ICreatePostRequest) => {
     await handleCreatePost(post);
+    navigation.navigate('Main' as never, { screen: 'Feed' } as never);
   };
 
   const form = useForm<ICreatePostRequest>({
@@ -37,25 +46,65 @@ const NewPost: React.FC<PostFormProps> = () => {
     onSubmit,
   });
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      (event) => {
+        setKeyboardOffset(event.endCoordinates.height);
+      },
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardOffset(0);
+      },
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="¿Qué te gustaría compartir?"
-        multiline
-        numberOfLines={4}
-        maxLength={280}
-        onChangeText={(value) => form.handleChange('content', value)}
-      />
-      <View style={styles.footer}>
-        <TouchableOpacity
-          onPress={() => form.handleSubmit()}
-          disabled={isLoading}
-          style={{ flex: 1, width: '100%' }}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.keyboardAvoidingContainer}
         >
-          <Button title="Publicar" onPress={() => form.handleSubmit()} />
-        </TouchableOpacity>
-      </View>
+          <View style={{ paddingHorizontal: 16 }}>
+            <Text
+              value="Comparte algo con tu comunidad"
+              weight="bold"
+              style={{ marginTop: 16 }}
+            />
+            <TextInput
+              style={[styles.input, { marginBottom: keyboardOffset }]}
+              placeholder="Empieza a escribir..."
+              multiline
+              numberOfLines={3}
+              maxLength={280}
+              onChangeText={(value) => form.handleChange('content', value)}
+            />
+          </View>
+          <View
+            style={[
+              styles.footer,
+              { bottom: keyboardOffset > 0 ? keyboardOffset : 0 },
+            ]}
+          >
+            <TouchableOpacity
+              onPress={() => form.handleSubmit()}
+              disabled={isLoading}
+              style={{ flex: 1, width: '100%' }}
+            >
+              <Button title="Publicar" onPress={() => form.handleSubmit()} />
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
@@ -67,10 +116,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 8,
   },
+  keyboardAvoidingContainer: {
+    flex: 1,
+  },
   input: {
     fontSize: 16,
-    marginBottom: 16,
-    padding: 8,
   },
   image: {
     width: '100%',
@@ -92,7 +142,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
-    bottom: 0,
     width: '100%',
     paddingHorizontal: 16,
     paddingVertical: 8,

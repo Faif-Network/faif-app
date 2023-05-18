@@ -1,13 +1,16 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native';
-import CommentsViewer from '../../components/Comments/CommentViewer';
+import { useComments } from '../../api/hooks/comments/useComments';
+import CommentsList from '../../components/Comments/CommentList';
 
-const CommentsScreen = () => {
+function CommentsScreen({ route }: { route: any }) {
+  const { postId } = route.params as { postId: string };
+  const { comments } = useComments(postId);
   return (
-    <SafeAreaView>
-      <CommentsViewer />
+    <SafeAreaView style={{ flex: 1 }}>
+      <CommentsList comments={comments?.data} postId={postId} />
     </SafeAreaView>
   );
-};
+}
 
 export default CommentsScreen;

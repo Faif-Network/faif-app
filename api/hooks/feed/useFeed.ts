@@ -14,6 +14,7 @@ export interface IPost {
   num_likes: number;
   num_comments: number;
   created_at: number;
+  liked?: boolean;
   user?: {
     username: string;
     avatar: string;

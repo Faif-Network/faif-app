@@ -65,8 +65,9 @@ export default function SignUpScreen() {
       <Button
         title="Registrate"
         primary={true}
-        onPress={() => {
-          form.handleSubmit();
+        onPress={async () => {
+          await form.handleSubmit();
+          navigation.navigate('Communities' as never);
         }}
         isLoading={isLoading}
       />

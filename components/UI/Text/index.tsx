@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleProp, StyleSheet, Text as TextRN, TextStyle } from 'react-native';
 interface TextProps {
-  value?: string;
+  value?: string | number;
   align?: 'left' | 'center' | 'right';
   size?: 'small' | 'medium' | 'large';
   weight?: 'light' | 'regular' | 'bold';
@@ -50,21 +50,17 @@ const Text = (props: TextProps) => {
 const styles = StyleSheet.create({
   text: {
     color: '#000',
-    marginBottom: 14,
   },
   left: {
     alignSelf: 'flex-start',
-    marginHorizontal: 8,
     textAlign: 'left',
   },
   center: {
     alignSelf: 'center',
-    marginHorizontal: 8,
     textAlign: 'center',
   },
   right: {
     alignSelf: 'flex-end',
-    marginHorizontal: 8,
     textAlign: 'right',
   },
   small: {

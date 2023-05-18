@@ -1,12 +1,14 @@
 import React from 'react';
 import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
+import { useComments } from '../../api/hooks/comments/useComments';
 import { IPost } from '../../api/hooks/feed/useFeed';
-import CommentsViewer from '../../components/Comments/CommentViewer';
+import CommentsList from '../../components/Comments/CommentList';
 import Text from '../../components/UI/Text';
 import { formatDate } from '../../utils/date';
 
 function PostDetailScreen({ route }: { route: any }) {
   const { post } = route.params as { post: IPost };
+  const { comments } = useComments(post?.id);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -23,14 +25,12 @@ function PostDetailScreen({ route }: { route: any }) {
             <Text value={formatDate(post.created_at)} size="small" />
           </View>
         </View>
-        <Text value={post.content} />
+        <Text value={post.content} style={styles.text} />
         {post.attachment && (
           <Image source={{ uri: post?.attachment }} style={styles.image} />
         )}
       </View>
-      <View>
-        <CommentsViewer />
-      </View>
+      <CommentsList comments={comments?.data} postId={post?.id} />
     </SafeAreaView>
   );
 }
@@ -38,15 +38,12 @@ function PostDetailScreen({ route }: { route: any }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
     backgroundColor: 'white',
   },
   postContainer: {
     width: '100%',
     maxWidth: 600,
     marginBottom: 20,
-    backgroundColor: '#fff',
     borderRadius: 10,
     padding: 20,
   },
@@ -64,13 +61,6 @@ const styles = StyleSheet.create({
   nameContainer: {
     flexDirection: 'column',
   },
-  name: {
-    fontWeight: 'bold',
-  },
-  timestamp: {
-    fontSize: 12,
-    color: '#888',
-  },
   text: {
     marginTop: 10,
     marginBottom: 10,
@@ -78,6 +68,8 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 200,
+    marginBottom: 10,
+    borderRadius: 8,
   },
 });
 

@@ -3,7 +3,7 @@ import fetcher from '../../fetcher';
 
 export interface ICreatePostRequest {
   content: string;
-  attachment: string;
+  attachment?: string;
 }
 
 export interface ICreatePostResponse {

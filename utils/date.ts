@@ -13,15 +13,15 @@ const formatDate = (date: number) => {
   let agoText = '';
 
   if (yearsAgo > 0) {
-    agoText = `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
+    agoText = `hace ${yearsAgo} año${yearsAgo > 1 ? 's' : ''}`;
   } else if (monthsAgo > 0) {
-    agoText = `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+    agoText = `hace ${monthsAgo} mes${monthsAgo > 1 ? 'es' : ''}`;
   } else if (daysAgo > 0) {
-    agoText = `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+    agoText = `hace ${daysAgo} dia${daysAgo > 1 ? 's' : ''}`;
   } else if (hoursAgo > 0) {
-    agoText = `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+    agoText = `hace ${hoursAgo} hora${hoursAgo > 1 ? 's' : ''}`;
   } else if (minutesAgo > 0) {
-    agoText = `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+    agoText = `hace ${minutesAgo} minuto${minutesAgo > 1 ? 's' : ''}`;
   } else {
     agoText = 'Just now';
   }
