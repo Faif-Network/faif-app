@@ -1,14 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
-  Button,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
   StyleSheet,
   TextInput,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -16,6 +14,7 @@ import useCreatePost, {
   ICreatePostRequest,
 } from '../../api/hooks/feed/useCreatePost';
 import useForm from '../../utils/useForm';
+import Button from '../UI/Buttons';
 import Text from '../UI/Text';
 
 interface PostFormProps {
@@ -35,7 +34,7 @@ const NewPost: React.FC<PostFormProps> = () => {
 
   const onSubmit = async (post: ICreatePostRequest) => {
     await handleCreatePost(post);
-    navigation.navigate('Main' as never, { screen: 'Feed' } as never);
+    navigation.navigate('Main' as never, { screen: 'Home' } as never);
   };
 
   const form = useForm<ICreatePostRequest>({
@@ -95,13 +94,11 @@ const NewPost: React.FC<PostFormProps> = () => {
               { bottom: keyboardOffset > 0 ? keyboardOffset : 0 },
             ]}
           >
-            <TouchableOpacity
+            <Button
+              title="Publicar"
               onPress={() => form.handleSubmit()}
-              disabled={isLoading}
-              style={{ flex: 1, width: '100%' }}
-            >
-              <Button title="Publicar" onPress={() => form.handleSubmit()} />
-            </TouchableOpacity>
+              style={{ width: '100%' }}
+            />
           </View>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>

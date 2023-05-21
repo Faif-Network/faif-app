@@ -6,6 +6,7 @@ import PostItem from './PostItem';
 function PostListViewer({ posts }: { posts: IPost[] | undefined }) {
   return (
     <FlatList
+      style={{ flex: 1 }}
       data={posts}
       renderItem={(item) => <PostItem post={item.item} />}
       keyExtractor={(item) => item.id}

@@ -1,11 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
 
 interface ButtonProps {
   title: string;
   onPress: () => void;
   primary?: boolean;
   isLoading?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const Button = (props: ButtonProps) => {
@@ -16,7 +23,7 @@ const Button = (props: ButtonProps) => {
 
   return (
     <TouchableOpacity
-      style={[styles.basicButton, buttonStyle, disabledStyle]}
+      style={[styles.basicButton, buttonStyle, disabledStyle, props.style]}
       onPress={onPress}
       disabled={props.isLoading}
     >
@@ -34,7 +41,7 @@ const Button = (props: ButtonProps) => {
 const styles = StyleSheet.create({
   basicButton: {
     width: '80%',
-    height: 40,
+    height: 45,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
@@ -47,7 +54,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     width: '80%',
-    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -15,7 +15,17 @@ export default function SignUpScreen() {
   const { handleRegister, isLoading } = useRegister();
 
   const onSubmit = async (values: IRegisterRequest) => {
-    await handleRegister(values);
+    const data = await handleRegister(values);
+    console.log(data);
+    if (data)
+      navigation.navigate(
+        'CompleteProfile' as never,
+        {
+          userId: data.user_id,
+          username: data.username,
+          avatar: data.avatar,
+        } as never,
+      );
   };
 
   const form = useForm<IRegisterRequest>({
@@ -48,7 +58,6 @@ export default function SignUpScreen() {
         weight="light"
         align="center"
       />
-      <Text value="Registrate" size="medium" weight="bold" align="center" />
       <InputText
         placeholder="Nombre de usuario"
         onChangeText={(value) => form.handleChange('username', value)}
@@ -67,7 +76,6 @@ export default function SignUpScreen() {
         primary={true}
         onPress={async () => {
           await form.handleSubmit();
-          navigation.navigate('Communities' as never);
         }}
         isLoading={isLoading}
       />

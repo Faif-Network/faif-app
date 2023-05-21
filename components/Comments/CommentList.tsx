@@ -33,9 +33,6 @@ const CommentsList = ({
     await handleCreateComment({
       content: comment.content,
     });
-
-    // Remove the content from the form
-    form.handleChange('content', '');
   };
 
   const form = useForm<ICreateCommentRequest>({
@@ -116,11 +113,7 @@ const CommentsList = ({
             multiline
             numberOfLines={2}
           />
-          <Button
-            title="Enviar"
-            onPress={() => form.handleSubmit()}
-            disabled={form.values.content === ''}
-          />
+          <Button title="Enviar" onPress={() => form.handleSubmit()} />
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>

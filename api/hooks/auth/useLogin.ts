@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useContext } from 'react';
-import { AuthContext } from '../../../context/AuthContext';
+import { useDispatch } from 'react-redux';
+import { setAuthStatusTrue } from '../../../redux/slices/authSlice';
 import fetcher from '../../fetcher';
 
 export interface ILoginRequest {
@@ -25,8 +25,7 @@ const login = async (request: ILoginRequest): Promise<ILoginResponse> => {
 
 const useLogin = () => {
   const queryClient = useQueryClient();
-  const { dispatch } = useContext(AuthContext);
-
+  const dispatch = useDispatch();
   const loginMutation = useMutation<ILoginResponse, Error, ILoginRequest>(
     (request) => login(request),
     {
@@ -34,9 +33,7 @@ const useLogin = () => {
         // Guardamos el token en el local storage
         const token = data.data.access_token;
         await AsyncStorage.setItem('token', token);
-        dispatch({
-          type: 'LOGIN',
-        });
+        dispatch(setAuthStatusTrue({ token }));
         await queryClient.invalidateQueries();
       },
     },

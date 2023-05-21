@@ -16,8 +16,8 @@ type ErrorResponse = {
   status: number;
 };
 
+//const BASE_URL = 'http://localhost:3000/api';
 const BASE_URL = 'https://faifbackend.azurewebsites.net/api';
-
 async function fetcher<T>(
   url: string,
   options?: RequestOptions,

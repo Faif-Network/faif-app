@@ -1,5 +1,12 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { useComments } from '../../api/hooks/comments/useComments';
 import { IPost } from '../../api/hooks/feed/useFeed';
 import CommentsList from '../../components/Comments/CommentList';
@@ -9,11 +16,19 @@ import { formatDate } from '../../utils/date';
 function PostDetailScreen({ route }: { route: any }) {
   const { post } = route.params as { post: IPost };
   const { comments } = useComments(post?.id);
+  const navigation = useNavigation();
+
+  const handleViewProfile = (userId: string) => {
+    navigation.navigate('PublicProfile' as never, { userId } as never);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.postContainer}>
-        <View style={styles.userContainer}>
+        <TouchableOpacity
+          style={styles.userContainer}
+          onPress={() => handleViewProfile(post?.user_id)}
+        >
           <Image
             source={{
               uri: post?.user?.avatar,
@@ -24,7 +39,7 @@ function PostDetailScreen({ route }: { route: any }) {
             <Text value={post?.user?.username} weight="bold" />
             <Text value={formatDate(post.created_at)} size="small" />
           </View>
-        </View>
+        </TouchableOpacity>
         <Text value={post.content} style={styles.text} />
         {post.attachment && (
           <Image source={{ uri: post?.attachment }} style={styles.image} />

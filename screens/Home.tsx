@@ -6,7 +6,9 @@ import Stories from '../components/Stories/Stories';
 import Text from '../components/UI/Text';
 
 function HomeScreen() {
-  const { feed } = useFeed();
+  const { feed } = useFeed({
+    populate: 'user',
+  });
 
   const stories = [
     {
@@ -61,7 +63,7 @@ function HomeScreen() {
       <ScrollView style={{ flex: 1, backgroundColor: '#FFF' }}>
         <Stories stories={stories} />
         {feed?.data ? (
-          <PostListViewer posts={feed.data} />
+          <PostListViewer posts={feed?.data} />
         ) : (
           <View
             style={{

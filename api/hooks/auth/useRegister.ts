@@ -9,7 +9,13 @@ export interface IRegisterRequest {
 }
 
 interface IRegisterResponse {
-  token: string;
+  message: string;
+  data: {
+    avatar: string;
+    acces_token: string;
+    user_id: number;
+    username: string;
+  };
 }
 
 const register = async (
@@ -33,14 +39,15 @@ const useRegister = () => {
   >((request) => register(request), {
     onSuccess: async (data) => {
       // Save the token in AsyncStorage
-      await AsyncStorage.setItem('token', data.token);
+      await AsyncStorage.setItem('token', data.data.acces_token);
       await queryClient.invalidateQueries();
     },
   });
 
   const handleRegister = async (data: IRegisterRequest) => {
     try {
-      await registerMutation.mutateAsync(data);
+      const res = await registerMutation.mutateAsync(data);
+      return res?.data;
     } catch (error) {
       console.log('Error al registrarse:', error);
       throw error;

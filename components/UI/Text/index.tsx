@@ -50,6 +50,7 @@ const Text = (props: TextProps) => {
 const styles = StyleSheet.create({
   text: {
     color: '#000',
+    lineHeight: 20,
   },
   left: {
     alignSelf: 'flex-start',
@@ -73,10 +74,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   light: {
-    fontWeight: '300',
+    fontWeight: '400',
   },
   regular: {
-    fontWeight: '400',
+    fontWeight: '500',
   },
   bold: {
     fontWeight: '700',

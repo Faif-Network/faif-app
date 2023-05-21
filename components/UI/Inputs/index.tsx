@@ -4,20 +4,26 @@ import { StyleProp, StyleSheet, TextInput, TextStyle } from 'react-native';
 interface InputProps {
   placeholder: string;
   isPassword?: boolean;
-  value?: string;
+  defaultValue?: string;
   onChangeText?: (text: string) => void;
   style?: StyleProp<TextStyle>;
+  numberOfLines?: number;
+  multiline?: boolean;
+  maxLength?: number;
 }
 
 const InputText = (props: InputProps) => {
-  const { placeholder, value, onChangeText } = props;
+  const { placeholder, defaultValue, onChangeText } = props;
   return (
     <TextInput
       style={[styles.input, props.style]}
       placeholder={placeholder}
-      value={value}
       onChangeText={onChangeText}
       secureTextEntry={props.isPassword}
+      numberOfLines={props.numberOfLines}
+      multiline={props.multiline}
+      maxLength={props.maxLength}
+      defaultValue={defaultValue}
     />
   );
 };
