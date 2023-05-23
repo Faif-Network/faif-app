@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
   Image,
@@ -7,15 +8,22 @@ import {
   Text,
   View,
 } from 'react-native';
+import useCreateChat from '../../api/hooks/chat/useCreateChat';
 import { useFeed } from '../../api/hooks/feed/useFeed';
 import { usePublicProfile } from '../../api/hooks/profile/usePublicProfile';
 import PostListViewer from '../../components/Post/PostListViewer';
+import Button from '../../components/UI/Buttons';
 
 function PublicProfile({ route }: any) {
-  const { feed } = useFeed();
+  const { feed } = useFeed({
+    filterUser: route.params.userId,
+    populate: 'user',
+  });
   const { userId } = route.params;
   const { publicProfile } = usePublicProfile(userId);
-
+  const navigation = useNavigation();
+  const { isLoading: isLoadingCreatingChat, handleCreateChat } =
+    useCreateChat();
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{ flex: 1, backgroundColor: '#FFF' }}>
@@ -29,9 +37,32 @@ function PublicProfile({ route }: any) {
             <Text style={styles.name}>{publicProfile?.data?.username}</Text>
             <Text style={styles.info}>Comunidad</Text>
             <Text style={styles.description}>Biografia</Text>
-            <PostListViewer posts={feed?.data} />
+            <View style={styles.buttonContainer}>
+              <View style={styles.buttonWrapper}>
+                <Button
+                  style={{ marginRight: 5 }}
+                  primary={true}
+                  title="Seguir"
+                  onPress={() => {
+                    navigation.navigate('UpdateProfile' as never);
+                  }}
+                />
+              </View>
+              <View style={styles.buttonWrapper}>
+                <Button
+                  style={{ marginLeft: 5 }}
+                  primary={false}
+                  isLoading={isLoadingCreatingChat}
+                  title="Enviar mensaje"
+                  onPress={async () => {
+                    await handleCreateChat(userId);
+                  }}
+                />
+              </View>
+            </View>
           </View>
         </View>
+        <PostListViewer posts={feed?.data} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -83,14 +114,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   buttonContainer: {
-    marginTop: 10,
-    height: 45,
     flexDirection: 'row',
+    marginTop: 20,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    width: 250,
-    borderRadius: 30,
-    backgroundColor: '#00BFFF',
+    width: '100%',
+  },
+  buttonWrapper: {
+    flex: 1,
   },
 });

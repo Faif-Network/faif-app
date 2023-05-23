@@ -14,7 +14,7 @@ import Text from '../../components/UI/Text';
 import useForm from '../../utils/useForm';
 
 function UpdateProfileScreen() {
-  const { publicProfile } = useMe();
+  const { profile: publicProfile } = useMe();
   const { handleUpdateProfile } = useUpdateProfile();
   const navigation = useNavigation();
   const { image, setImage } = useImageUploader();

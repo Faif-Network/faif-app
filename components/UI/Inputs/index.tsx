@@ -30,7 +30,6 @@ const InputText = (props: InputProps) => {
 
 const styles = StyleSheet.create({
   input: {
-    width: '80%',
     height: 40,
     borderWidth: 1,
     borderColor: '#ccc',

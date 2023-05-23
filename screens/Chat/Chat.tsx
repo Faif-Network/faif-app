@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
   KeyboardAvoidingView,
   ScrollView,
@@ -7,62 +8,111 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import io, { Socket } from 'socket.io-client';
+import { IMessage, useChatById } from '../../api/hooks/chat/useChatById';
+import { useMe } from '../../api/hooks/profile/useMe';
 import Text from '../../components/UI/Text';
 
-interface Message {
-  text: string;
-  from: 'me' | 'other';
-}
+const ChatScreen = ({ route }: { route: any }) => {
+  const { profile } = useMe();
+  const { chat_id, receiver } = route.params;
+  const { chat } = useChatById(chat_id);
+  const [messageText, setMessageText] = useState('');
+  const [socket, setSocket] = useState<Socket>();
+  const navigation = useNavigation();
+  const scrollViewRef = useRef<ScrollView>(null);
+  const [messages, setMessages] = useState<IMessage[]>(chat || []);
 
-const ChatScreen = () => {
-  const [message, setMessage] = useState('');
-  const [chatHistory, setChatHistory] = useState<Message[]>([
-    { text: 'Hola, ¿cómo estás?', from: 'me' },
-    { text: 'Bien, gracias. ¿Y tú?', from: 'other' },
-    { text: 'Estoy bien también, gracias', from: 'me' },
-    { text: 'Me alegro', from: 'other' },
-    { text: '¿Qué planes tienes para hoy?', from: 'me' },
-    { text: 'No muchos, ¿tú?', from: 'other' },
-    {
-      text: 'Tengo que trabajar un poco, pero luego no tengo planes',
-      from: 'me',
-    },
-  ]);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: receiver,
+    });
+  }, [navigation]);
 
-  const handleSendMessage = () => {
-    if (message.trim() !== '') {
-      setChatHistory([...chatHistory, { text: message, from: 'me' }]);
-      setMessage('');
+  useEffect(() => {
+    setSocket(io('http://localhost:3000'));
+  }, []);
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit('join', chat_id);
+
+      socket.on('listMessages', (message: IMessage) => {
+        setMessages((prevChat: IMessage[]) => [...prevChat, message]);
+      });
+    }
+  }, [socket, chat_id]);
+
+  const sendMessage = () => {
+    if (socket) {
+      const message = {
+        chat_id,
+        sender: profile?.id,
+        receiver,
+        message: messageText,
+      };
+      socket.emit('chat', message);
+      setMessageText('');
     }
   };
 
+  useEffect(() => {
+    if (chat) {
+      setMessages(chat);
+    }
+  }, [chat]);
+
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-      <ScrollView contentContainerStyle={styles.container}>
-        {chatHistory.map((message, index) => {
-          const isMe = message.from === 'me';
-          const containerStyle = isMe
-            ? [styles.messageContainer, styles.rightContainer]
-            : [styles.messageContainer, styles.leftContainer];
-          const textStyle = isMe
-            ? [styles.messageText, styles.rightText]
-            : [styles.messageText];
+      {chat?.length === 0 && (
+        <View style={styles.centerContainer}>
+          <Text value="No hay mensajes" style={styles.centerText} />
+        </View>
+      )}
+
+      <ScrollView
+        contentContainerStyle={styles.container}
+        ref={scrollViewRef}
+        onContentSizeChange={() =>
+          scrollViewRef.current?.scrollToEnd({ animated: false })
+        }
+      >
+        {messages?.map((message: IMessage, index: number) => {
+          const isSender = message?.sender === profile?.id;
+
           return (
-            <View key={index} style={containerStyle}>
-              <Text value={message.text} />
+            <View
+              key={index}
+              style={[
+                styles.messageContainer,
+                isSender ? styles.rightContainer : styles.leftContainer,
+              ]}
+            >
+              <Text
+                value={message.message}
+                style={[
+                  styles.messageText,
+                  isSender ? styles.rightText : styles.leftText,
+                ]}
+              />
             </View>
           );
         })}
       </ScrollView>
+
       <View style={styles.footer}>
         <TextInput
-          placeholder="Escribe un mensaje..."
-          value={message}
-          onChangeText={setMessage}
           style={styles.sendText}
+          placeholder="Escribe un mensaje..."
+          value={messageText}
+          onChangeText={setMessageText}
         />
-        <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
-          <Text value={'Enviar'} />
+        <TouchableOpacity
+          style={styles.sendButton}
+          onPress={sendMessage}
+          disabled={!messageText}
+        >
+          <Text value="Enviar" style={styles.sendButtonText} />
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -70,10 +120,17 @@ const ChatScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  centerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  centerText: {
+    textAlign: 'center',
+  },
   container: {
     flexGrow: 1,
     padding: 16,
-    paddingBottom: 80, // para dejar espacio para el footer
+    paddingBottom: 80,
   },
   messageContainer: {
     padding: 8,
@@ -108,6 +165,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'row',
     bottom: 0,
+    height: 60,
     width: '100%',
     paddingHorizontal: 16,
     paddingVertical: 8,
@@ -116,15 +174,28 @@ const styles = StyleSheet.create({
     borderTopColor: '#ccc',
   },
   sendText: {
-    color: '#5D88FF',
+    flex: 1,
+    color: '#000',
     fontSize: 16,
-    width: '80%',
+    paddingHorizontal: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    marginRight: 8,
   },
   sendButton: {
-    marginLeft: 8,
-    width: '20%',
+    width: 80,
     backgroundColor: '#C9DFFF',
     borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  sendButtonText: {
+    color: '#5D88FF',
+    fontSize: 16,
+  },
+  leftText: {
+    color: '#000',
   },
 });
 

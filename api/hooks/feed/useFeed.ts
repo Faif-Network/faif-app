@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { queryBuilder } from '../../../utils/queryBuilder';
 import fetcher from '../../fetcher';
 
 export interface IFetchFeedResponse {
@@ -30,18 +31,17 @@ export interface IPost {
 const fetchFeed = async (
   options?: IFetchFeedRequest,
 ): Promise<IFetchFeedResponse> => {
-  let url = '/feed/posts';
+  const url = '/feed/posts';
+  const queries = [];
   if (options) {
-    const { populate, filterUser } = options;
-    if (populate) {
-      url += `?populate=${encodeURIComponent(populate)}`;
+    if (options.populate) {
+      queries.push(`populate=${options.populate}`);
     }
-    if (filterUser) {
-      url += `&filter[user]=${encodeURIComponent(filterUser)}`;
+    if (options.filterUser) {
+      queries.push(`filter[user]=${options.filterUser}`);
     }
-    // Agrega aquí otras opciones de filtro si es necesario
   }
-  const response = await fetcher(url);
+  const response = await fetcher(`${url}${queryBuilder(queries)}`);
   return response.data as IFetchFeedResponse;
 };
 

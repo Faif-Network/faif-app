@@ -1,43 +1,27 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useChats } from '../../api/hooks/chat/useChats';
 import ChatList from '../../components/Chat/ChatList';
+import Text from '../../components/UI/Text';
 
 const ChatListScreen = () => {
-  const mockChats = [
-    {
-      id: 1,
-      nickname: 'User 1',
-      lastMessage: 'Last message 1',
-      avatar: 'https://loremflickr.com/200/200',
-    },
-    {
-      id: 2,
-      nickname: 'User 2',
-      lastMessage: 'Last message 2',
-      avatar: 'https://loremflickr.com/200/200',
-    },
-    {
-      id: 3,
-      nickname: 'User 3',
-      lastMessage: 'Last message 3',
-      avatar: 'https://loremflickr.com/200/200',
-    },
-    {
-      id: 4,
-      nickname: 'User 4',
-      lastMessage: 'Last message 4',
-      avatar: 'https://loremflickr.com/200/200',
-    },
-    {
-      id: 5,
-      nickname: 'User 5',
-      lastMessage: 'Last message 5',
-      avatar: 'https://loremflickr.com/200/200',
-    },
-  ];
+  const { chats, loading } = useChats();
   return (
     <View style={styles.container}>
-      <ChatList chats={mockChats} />
+      {loading && <Text value={'Cargando...'} />}
+      {chats?.length ? (
+        <ChatList chats={chats} />
+      ) : (
+        <>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <Text
+              value={'Vaya, parece que no hablas con nadie'}
+              align="center"
+              weight="bold"
+            />
+          </View>
+        </>
+      )}
     </View>
   );
 };

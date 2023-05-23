@@ -35,7 +35,7 @@ const useMe = () => {
 
   return {
     loading: publicProfileQuery.isLoading,
-    publicProfile: publicProfileQuery.data?.data, // Accede a la propiedad data dentro de publicProfileQuery.data
+    profile: publicProfileQuery.data?.data,
   };
 };
 

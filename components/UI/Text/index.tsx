@@ -1,5 +1,12 @@
 import React from 'react';
-import { StyleProp, StyleSheet, Text as TextRN, TextStyle } from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text as TextRN,
+  TextStyle,
+  TouchableOpacity,
+} from 'react-native';
+
 interface TextProps {
   value?: string | number;
   align?: 'left' | 'center' | 'right';
@@ -10,38 +17,34 @@ interface TextProps {
 }
 
 const Text = (props: TextProps) => {
-  const { value, align, size, weight } = props;
+  const { value, align, size, weight, onPress } = props;
   const alignStyle = align ? styles[align] : styles.left;
   const sizeStyle = size ? styles[size] : styles.medium;
   const weightStyle = weight ? styles[weight] : styles.regular;
 
-  if (props.onPress)
+  if (onPress) {
     return (
-      <TextRN
-        style={[
-          styles.text,
-          alignStyle,
-          sizeStyle,
-          weightStyle,
-          styles.isClickable,
-        ]}
-        onPress={props.onPress}
-      >
-        {value}
-      </TextRN>
+      <TouchableOpacity onPress={onPress}>
+        <TextRN
+          style={[
+            styles.text,
+            alignStyle,
+            sizeStyle,
+            weightStyle,
+            styles.isClickable,
+            props.style,
+          ]}
+        >
+          {value}
+        </TextRN>
+      </TouchableOpacity>
     );
-
-  if (props.style)
-    return (
-      <TextRN
-        style={[styles.text, alignStyle, sizeStyle, weightStyle, props.style]}
-      >
-        {value}
-      </TextRN>
-    );
+  }
 
   return (
-    <TextRN style={[styles.text, alignStyle, sizeStyle, weightStyle]}>
+    <TextRN
+      style={[styles.text, alignStyle, sizeStyle, weightStyle, props.style]}
+    >
       {value}
     </TextRN>
   );
@@ -53,15 +56,12 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   left: {
-    alignSelf: 'flex-start',
     textAlign: 'left',
   },
   center: {
-    alignSelf: 'center',
     textAlign: 'center',
   },
   right: {
-    alignSelf: 'flex-end',
     textAlign: 'right',
   },
   small: {
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   light: {
-    fontWeight: '400',
+    fontWeight: '300',
   },
   regular: {
     fontWeight: '500',

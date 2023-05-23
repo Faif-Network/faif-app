@@ -15,7 +15,7 @@ import Button from '../../components/UI/Buttons';
 import Text from '../../components/UI/Text';
 
 function PrivateProfile() {
-  const { publicProfile } = useMe();
+  const { profile: publicProfile } = useMe();
   const { feed } = useFeed({
     filterUser: publicProfile?.id,
     populate: 'user',
@@ -40,22 +40,24 @@ function PrivateProfile() {
               value={`${publicProfile?.name} ${publicProfile?.last_name}`}
             />
             <Text align="center" value={publicProfile?.biography} />
-            <Button
-              primary={true}
-              title="Editar perfil"
-              onPress={() => {
-                navigation.navigate('UpdateProfile' as never);
-              }}
-            />
-            <Button
-              primary={false}
-              title="Cerrar sesión"
-              onPress={async () => {
-                await AsyncStorage.removeItem('token');
-                console.log('token removed');
-              }}
-            />
-            <View style={{ marginTop: 20 }} />
+            <View style={styles.buttonContainer}>
+              <Button
+                style={{ marginRight: 10 }}
+                primary={true}
+                title="Editar perfil"
+                onPress={() => {
+                  navigation.navigate('UpdateProfile' as never);
+                }}
+              />
+              <Button
+                primary={false}
+                title="Cerrar sesión"
+                onPress={async () => {
+                  await AsyncStorage.removeItem('token');
+                  console.log('token removed');
+                }}
+              />
+            </View>
             <Text
               size="medium"
               weight="regular"
@@ -112,5 +114,11 @@ const styles = StyleSheet.create({
     color: '#00BFFF',
     marginTop: 5,
     textAlign: 'center',
+  },
+  buttonContainer: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
   },
 });

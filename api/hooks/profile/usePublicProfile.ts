@@ -9,6 +9,7 @@ export interface IFetchPublicProfileResponse {
 export interface IPublicProfile {
   username: string;
   avatar: string;
+  user_id: number;
 }
 
 const fetchPublicProfile = async (

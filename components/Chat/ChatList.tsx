@@ -1,97 +1,47 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
-
-interface Chat {
-  id: number;
-  nickname: string;
-  lastMessage: string;
-  avatar: string;
-}
+import { IMyChat } from '../../api/hooks/chat/useChats';
+import { useMe } from '../../api/hooks/profile/useMe';
 
 interface ChatListProps {
-  chats: Chat[];
+  chats?: IMyChat[];
+  isLoading?: boolean;
 }
 
-function ChatList({ chats }: ChatListProps) {
-  const [chatData, setChatData] = useState<Chat[]>(chats);
-  const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
+function ChatList({ chats, isLoading }: ChatListProps) {
   const navigation = useNavigation();
+  const { profile } = useMe();
 
-  const navigateToChat = (chat: Chat) => {
-    // Navegar a la pantalla de chat
-    const { id } = chat;
-    console.log(`Navigating to chat ${id}`);
-    navigation.navigate('ChatView' as never, { chat } as never);
+  const navigateToChat = (chat: IMyChat) => {
+    const { chat_id } = chat;
+    const receiver = chat.users?.find((user) => user !== profile?.id);
+    console.log(`Navigating to chat ${chat_id}`);
+    navigation.navigate('ChatView' as never, { chat_id, receiver } as never);
   };
 
-  useEffect(() => {
-    loadMoreChats();
-  }, []);
-
-  const loadMoreChats = () => {
-    if (!isLoading) {
-      setIsLoading(true);
-      // Simulación de una carga asincrónica de más chats
-      setTimeout(() => {
-        const newChats = generateMoreChats(page);
-        setChatData((prevChats) => [...prevChats, ...newChats]);
-        setPage((prevPage) => prevPage + 1);
-        setIsLoading(false);
-      }, 1500);
-    }
-  };
-
-  const generateMoreChats = (currentPage: number): Chat[] => {
-    // Simulación de generación de más chats
-    const newChats: Chat[] = [];
-    const startIndex = (currentPage - 1) * 10;
-    const endIndex = startIndex + 10;
-    for (let i = startIndex; i < endIndex; i++) {
-      newChats.push({
-        id: i,
-        nickname: `User ${i}`,
-        lastMessage: `Last message ${i}`,
-        avatar: `https://picsum.photos/200`,
-      });
-    }
-    return newChats;
-  };
-
-  const renderItem = ({ item }: { item: Chat }) => (
+  const renderItem = ({ item }: { item: IMyChat }) => (
     <TouchableOpacity
       style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}
       onPress={() => navigateToChat(item)}
     >
       <Image
-        source={{ uri: item.avatar }}
+        source={{ uri: item.user?.avatar }}
         style={{ width: 50, height: 50, borderRadius: 25 }}
       />
       <View style={{ marginLeft: 10 }}>
-        <Text style={{ fontWeight: 'bold' }}>{item.nickname}</Text>
-        <Text>{item.lastMessage}</Text>
+        <Text style={{ fontWeight: 'bold' }}>{item.user?.username}</Text>
+        <Text>{item.last_message}</Text>
       </View>
     </TouchableOpacity>
   );
 
-  const renderFooter = () => {
-    if (!isLoading) return null;
-    return (
-      <View style={{ paddingVertical: 20 }}>
-        <Text>Loading more chats...</Text>
-      </View>
-    );
-  };
-
   return (
     <FlatList
-      data={chatData}
+      data={chats}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
-      onEndReached={loadMoreChats}
+      keyExtractor={(item) => item.chat_id}
       onEndReachedThreshold={0.5}
-      ListFooterComponent={renderFooter}
     />
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   StyleProp,
   StyleSheet,
   Text,
@@ -16,31 +17,28 @@ interface ButtonProps {
 }
 
 const Button = (props: ButtonProps) => {
-  const { title, onPress, primary } = props;
+  const { title, onPress, primary, isLoading } = props;
   const buttonStyle = primary ? styles.primaryButton : styles.secondaryButton;
   const textStyle = primary ? styles.primaryText : styles.secondaryText;
-  const disabledStyle = props.isLoading ? { opacity: 0.5 } : {};
+  const disabledStyle = isLoading ? { opacity: 0.5 } : {};
 
   return (
     <TouchableOpacity
       style={[styles.basicButton, buttonStyle, disabledStyle, props.style]}
       onPress={onPress}
-      disabled={props.isLoading}
+      disabled={isLoading}
     >
-      <Text style={textStyle}>
-        {props.isLoading ? (
-          <Text style={textStyle}>Cargando...</Text>
-        ) : (
-          <Text style={textStyle}>{title}</Text>
-        )}
-      </Text>
+      {isLoading ? (
+        <ActivityIndicator color={primary ? '#fff' : '#007bff'} />
+      ) : (
+        <Text style={textStyle}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   basicButton: {
-    width: '80%',
     height: 45,
     borderRadius: 30,
     justifyContent: 'center',
@@ -53,7 +51,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 16,
-    width: '80%',
     justifyContent: 'center',
     alignItems: 'center',
   },
