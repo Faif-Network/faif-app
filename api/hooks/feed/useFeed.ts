@@ -4,7 +4,7 @@ import fetcher from '../../fetcher';
 
 export interface IFetchFeedResponse {
   message: string;
-  data: IPost[];
+  data: Array<IPost | IPoll>;
 }
 
 interface IFetchFeedRequest {
@@ -26,6 +26,28 @@ export interface IPost {
     avatar: string;
   };
   attachment_type?: string;
+}
+
+export interface IPoll {
+  id: string;
+  isPoll: boolean;
+  user_id: string;
+  question: string;
+  attachment: string;
+  num_likes: number;
+  user?: {
+    username: string;
+    avatar: string;
+  };
+  created_at: number;
+  options: {
+    option: string;
+    percentage: number;
+  }[];
+  votes: {
+    option: string;
+    user_id: string;
+  }[];
 }
 
 const fetchFeed = async (

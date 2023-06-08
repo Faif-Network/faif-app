@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 
@@ -6,10 +7,15 @@ import {
   Keyboard,
   SafeAreaView,
   StyleSheet,
+  Switch,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import WebView from 'react-native-webview';
+import useCreatePoll, {
+  ICreatePollRequest,
+} from '../../api/hooks/feed/useCreatePoll';
 import useCreatePost, {
   ICreatePostRequest,
 } from '../../api/hooks/feed/useCreatePost';
@@ -22,12 +28,19 @@ import Text from '../UI/Text';
 const NewPost = () => {
   const navigation = useNavigation();
   const { handleCreatePost, isLoading } = useCreatePost();
+  const { handleCreatePoll, isLoading: isLoadingCreatePoll } = useCreatePoll();
   const [keyboardOffset, setKeyboardOffset] = useState(0);
   const { imageToUpload, setImageFromPicker, uploadImage } = useImageUploader();
   const { documentToUpload, uploadDocument, setDocumentFromPicker } =
     useDocumentUploader();
+  const [isPoll, setIsPoll] = useState(false);
+  const [options, setOptions] = useState<string[]>(['']);
 
-  const onSubmit = async (post: ICreatePostRequest) => {
+  const addOption = () => {
+    setOptions((prevState) => [...prevState, '']);
+  };
+
+  const onSubmitPost = async (post: ICreatePostRequest) => {
     const { data } = await handleCreatePost({
       content: post.content,
       attachment: imageToUpload
@@ -46,17 +59,53 @@ const NewPost = () => {
         }
       }
     }
-    form.values.content = '';
-    form.values.attachment = '';
+    postForm.values.content = '';
+    postForm.values.attachment = '';
     navigation.navigate('Main' as never, { screen: 'Home' } as never);
   };
 
-  const form = useForm<ICreatePostRequest>({
+  const onSubmitPoll = async (poll: ICreatePollRequest) => {
+    const { data } = await handleCreatePoll({
+      question: poll.question,
+      options: options,
+      attachment_type: imageToUpload
+        ? 'image/jpeg'
+        : documentToUpload
+        ? 'application/pdf'
+        : undefined,
+    });
+
+    if (data) {
+      if (data?.poll?.attachment_url) {
+        if (imageToUpload) {
+          await uploadImage(data?.poll?.attachment_url);
+        }
+        if (documentToUpload) {
+          await uploadDocument(data.poll?.attachment_url);
+        }
+      }
+    }
+    pollForm.values.question = '';
+    pollForm.values.attachment_type = '';
+    pollForm.values.options = [];
+    navigation.navigate('Main' as never, { screen: 'Home' } as never);
+  };
+
+  const postForm = useForm<ICreatePostRequest>({
     initialValues: {
       attachment: '',
       content: '',
     },
-    onSubmit,
+    onSubmit: onSubmitPost,
+  });
+
+  const pollForm = useForm<ICreatePollRequest>({
+    initialValues: {
+      attachment_type: '',
+      question: '',
+      options: [],
+    },
+    onSubmit: onSubmitPoll,
   });
 
   useEffect(() => {
@@ -89,13 +138,57 @@ const NewPost = () => {
           style={{ marginTop: 16 }}
         />
         <TextInput
-          style={[styles.input, { marginBottom: keyboardOffset }]}
+          style={[styles.input, { marginTop: 16 }]}
           placeholder="Empieza a escribir..."
           multiline
           numberOfLines={3}
           maxLength={280}
-          onChangeText={(value) => form.handleChange('content', value)}
+          onChangeText={(value) => {
+            postForm.values.content = value;
+            pollForm.values.question = value;
+          }}
         />
+        <View style={styles.switchContainer}>
+          <Text value="Encuesta" weight="bold" style={styles.switchText} />
+          <Switch
+            value={isPoll}
+            onValueChange={() => setIsPoll((prevState) => !prevState)}
+          />
+        </View>
+
+        {isPoll && (
+          <View>
+            <View style={styles.optionsHeader}>
+              <Text
+                value="Opciones"
+                weight="bold"
+                style={{ flex: 1, marginRight: 8 }}
+              />
+              <TouchableOpacity onPress={addOption}>
+                <Ionicons name="add-circle-outline" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+            {options.map((option, index) => (
+              <TextInput
+                style={{
+                  borderWidth: 1,
+                  borderColor: '#ccc',
+                  borderRadius: 4,
+                  padding: 8,
+                  marginVertical: 8,
+                }}
+                key={index}
+                placeholder={`Opción ${index + 1}`}
+                value={option}
+                onChangeText={(value) => {
+                  const newOptions = [...options];
+                  newOptions[index] = value;
+                  setOptions(newOptions);
+                }}
+              />
+            ))}
+          </View>
+        )}
 
         {imageToUpload && (
           <View>
@@ -151,7 +244,13 @@ const NewPost = () => {
         />
         <Button
           title="Publicar"
-          onPress={() => form.handleSubmit()}
+          onPress={() => {
+            if (isPoll) {
+              pollForm.handleSubmit();
+            } else {
+              postForm.handleSubmit();
+            }
+          }}
           style={{ width: '100%' }}
           isLoading={isLoading}
           primary
@@ -184,10 +283,11 @@ const styles = StyleSheet.create({
   switchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 16,
     marginBottom: 16,
   },
   switchText: {
-    marginLeft: 8,
+    marginRight: 8,
     fontSize: 14,
     color: '#657786',
   },
@@ -201,6 +301,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#ccc',
+  },
+  optionsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
   },
 });
 
