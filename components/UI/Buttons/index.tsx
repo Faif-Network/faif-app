@@ -14,19 +14,20 @@ interface ButtonProps {
   primary?: boolean;
   isLoading?: boolean;
   style?: StyleProp<ViewStyle>;
+  disabled?: boolean;
 }
 
 const Button = (props: ButtonProps) => {
   const { title, onPress, primary, isLoading } = props;
   const buttonStyle = primary ? styles.primaryButton : styles.secondaryButton;
   const textStyle = primary ? styles.primaryText : styles.secondaryText;
-  const disabledStyle = isLoading ? { opacity: 0.5 } : {};
+  const disabledStyle = isLoading || props.disabled ? { opacity: 0.5 } : {};
 
   return (
     <TouchableOpacity
       style={[styles.basicButton, buttonStyle, disabledStyle, props.style]}
       onPress={onPress}
-      disabled={isLoading}
+      disabled={isLoading || props.disabled}
     >
       {isLoading ? (
         <ActivityIndicator color={primary ? '#fff' : '#007bff'} />

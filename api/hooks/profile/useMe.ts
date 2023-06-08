@@ -15,6 +15,8 @@ export interface IPublicProfile {
   name: string;
   last_name: string;
   biography: string;
+  followers_count: number;
+  following_count: number;
 }
 
 const fetchPublicProfile = async (): Promise<IFetchPublicProfileResponse> => {

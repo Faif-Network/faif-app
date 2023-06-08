@@ -5,7 +5,7 @@ import NewPost from '../../components/Post/NewPost';
 function UploadPostScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      <NewPost onSubmit={(post) => console.log(post)} />
+      <NewPost />
     </SafeAreaView>
   );
 }

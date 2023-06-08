@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 
 export type RequestOptions = {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -52,6 +53,7 @@ async function fetcher<T>(
       await AsyncStorage.removeItem('token');
     }
 
+    Alert.alert('Error', errorResponse.message);
     throw errorResponse;
   }
 

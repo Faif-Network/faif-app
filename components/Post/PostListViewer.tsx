@@ -21,8 +21,6 @@ export default PostListViewer;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFF',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
+    padding: 10,
   },
 });

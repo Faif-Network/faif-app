@@ -1,8 +1,7 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import { useFeed } from '../api/hooks/feed/useFeed';
 import PostListViewer from '../components/Post/PostListViewer';
-import Stories from '../components/Stories/Stories';
 import Text from '../components/UI/Text';
 
 function HomeScreen() {
@@ -10,58 +9,9 @@ function HomeScreen() {
     populate: 'user',
   });
 
-  const stories = [
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'John Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-    {
-      avatar: 'https://picsum.photos/200/200',
-      name: 'Jane Doe',
-      image: 'https://picsum.photos/400/400',
-    },
-  ];
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView style={{ flex: 1, backgroundColor: '#FFF' }}>
-        <Stories stories={stories} />
+      <View style={{ flex: 1, backgroundColor: '#FFF' }}>
         {feed?.data ? (
           <PostListViewer posts={feed?.data} />
         ) : (
@@ -81,7 +31,7 @@ function HomeScreen() {
             />
           </View>
         )}
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }

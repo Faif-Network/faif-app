@@ -3,6 +3,7 @@ import React from 'react';
 import CommunityScreen from '../screens/Auth/Communities';
 import CompleteProfileScreen from '../screens/Auth/CompleteProfile';
 import LoginScreen from '../screens/Auth/Login';
+import RestorePassword from '../screens/Auth/RestorePassword';
 import SignUpScreen from '../screens/Auth/SignUp';
 
 function AuthStack() {
@@ -18,6 +19,11 @@ function AuthStack() {
       <Stack.Screen
         name="SignUp"
         component={SignUpScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RestorePassword"
+        component={RestorePassword}
         options={{ headerShown: false }}
       />
       <Stack.Screen

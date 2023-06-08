@@ -32,15 +32,23 @@ export default function LoginScreen() {
           uri: 'https://i.imgur.com/Y6eoxWl.png',
         }}
       />
-      <Text value="Iniciar sesión" size="large" weight="bold" align="center" />
+      <Text
+        value="Iniciar sesión"
+        size="large"
+        weight="bold"
+        align="center"
+        style={{ marginBottom: 20 }}
+      />
       <InputText
         placeholder="Correo electrónico"
         onChangeText={(value) => form.handleChange('email', value)}
+        style={{ width: '80%' }}
       />
       <InputText
         placeholder="Contraseña"
         isPassword={true}
         onChangeText={(value) => form.handleChange('password', value)}
+        style={{ width: '80%' }}
       />
       <Text
         value="¿Olvidaste tu contraseña?"
@@ -55,6 +63,7 @@ export default function LoginScreen() {
           form.handleSubmit();
         }}
         isLoading={isLoading}
+        style={{ width: '80%', marginTop: 20 }}
       />
       <Text
         value="¿No tienes cuenta? Regístrate"

@@ -60,17 +60,20 @@ function UpdateProfileScreen() {
             placeholder="Nombre"
             defaultValue={publicProfile?.name}
             onChangeText={(value) => handleChange('name', value)}
+            style={styles.input}
           />
           <InputText
             placeholder="Apellido"
             defaultValue={publicProfile?.last_name}
             onChangeText={(value) => handleChange('last_name', value)}
+            style={styles.input}
           />
           <InputText
             placeholder="Biografia"
             multiline={true}
             onChangeText={(value) => handleChange('biography', value)}
             defaultValue={publicProfile?.biography}
+            style={styles.input}
           />
           <Button
             primary={false}
@@ -116,6 +119,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#00BFFF',
     height: 130,
   },
+  input: {
+    marginVertical: 10,
+    width: '80%',
+  },
+
   avatar: {
     width: 130,
     height: 130,

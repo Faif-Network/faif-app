@@ -23,7 +23,7 @@ const formatDate = (date: number) => {
   } else if (minutesAgo > 0) {
     agoText = `hace ${minutesAgo} minuto${minutesAgo > 1 ? 's' : ''}`;
   } else {
-    agoText = 'Just now';
+    agoText = 'Justo ahora';
   }
 
   return `${formattedDate} (${agoText})`;

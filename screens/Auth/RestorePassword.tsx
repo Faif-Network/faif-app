@@ -21,14 +21,23 @@ export default function RestorePassword() {
         size="large"
         weight="bold"
         align="center"
+        style={{ marginBottom: 20 }}
       />
-      <InputText placeholder="Correo electrónico" />
+      <Text
+        value="Ingresa tu correo electrónico para poder restaurar tu contraseña"
+        size="small"
+        weight="light"
+        align="center"
+        style={{ marginBottom: 20 }}
+      />
+      <InputText placeholder="Correo electrónico" style={{ width: '80%' }} />
       <Button
         title="Restaurar"
         primary={true}
         onPress={() => {
           navigation.navigate('Login' as never);
         }}
+        style={{ width: '80%', marginTop: 20 }}
       />
     </View>
   );

@@ -9,7 +9,10 @@ export interface ICreatePostRequest {
 export interface ICreatePostResponse {
   data: {
     message: string;
-    post_id: string;
+    post: {
+      id: string;
+      attachment_url?: string;
+    };
   };
 }
 
@@ -37,7 +40,7 @@ const useCreatePost = () => {
 
   const handleCreatePost = async (data: ICreatePostRequest) => {
     try {
-      await createPostMutation.mutateAsync(data);
+      return await createPostMutation.mutateAsync(data);
     } catch (error) {
       console.log('Error al crear el post:', error);
       throw error;

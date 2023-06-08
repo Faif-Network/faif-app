@@ -12,7 +12,7 @@ interface IRegisterResponse {
   message: string;
   data: {
     avatar: string;
-    acces_token: string;
+    access_token: string;
     user_id: number;
     username: string;
   };
@@ -39,7 +39,8 @@ const useRegister = () => {
   >((request) => register(request), {
     onSuccess: async (data) => {
       // Save the token in AsyncStorage
-      await AsyncStorage.setItem('token', data.data.acces_token);
+      console.log('data', data);
+      await AsyncStorage.setItem('token', data.data.access_token);
       await queryClient.invalidateQueries();
     },
   });

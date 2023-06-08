@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
   Image,
+  Linking,
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
@@ -10,6 +11,7 @@ import {
 import { useComments } from '../../api/hooks/comments/useComments';
 import { IPost } from '../../api/hooks/feed/useFeed';
 import CommentsList from '../../components/Comments/CommentList';
+import Button from '../../components/UI/Buttons';
 import Text from '../../components/UI/Text';
 import { formatDate } from '../../utils/date';
 
@@ -41,7 +43,13 @@ function PostDetailScreen({ route }: { route: any }) {
           </View>
         </TouchableOpacity>
         <Text value={post.content} style={styles.text} />
-        {post.attachment && (
+        {post.attachment && post.attachment_type === 'pdf' ? (
+          <Button
+            onPress={() => Linking.openURL(post.attachment)}
+            title="Ver documento"
+          />
+        ) : null}
+        {post?.attachment_type === 'image' && (
           <Image source={{ uri: post?.attachment }} style={styles.image} />
         )}
       </View>

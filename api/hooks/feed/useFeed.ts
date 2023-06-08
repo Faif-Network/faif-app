@@ -10,7 +10,6 @@ export interface IFetchFeedResponse {
 interface IFetchFeedRequest {
   populate?: string;
   filterUser?: string;
-  // Otros filtros que desees agregar
 }
 
 export interface IPost {
@@ -26,6 +25,7 @@ export interface IPost {
     username: string;
     avatar: string;
   };
+  attachment_type?: string;
 }
 
 const fetchFeed = async (

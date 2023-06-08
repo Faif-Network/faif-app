@@ -65,8 +65,8 @@ function PrivateProfile() {
               align="center"
             />
           </View>
-          <PostListViewer posts={feed?.data} />
         </View>
+        <PostListViewer posts={feed?.data} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   body: {
-    marginVertical: 60,
+    marginTop: 40,
   },
   bodyContent: {
     flex: 1,

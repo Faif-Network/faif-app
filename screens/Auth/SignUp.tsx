@@ -50,6 +50,7 @@ export default function SignUpScreen() {
         size="large"
         weight="bold"
         align="center"
+        style={{ marginBottom: 20 }}
       />
       <Text
         value="Bienvenido a Faif, rellena el siguiente formulario para poder registrarte y formar parte de
@@ -57,19 +58,23 @@ export default function SignUpScreen() {
         size="small"
         weight="light"
         align="center"
+        style={{ marginBottom: 20 }}
       />
       <InputText
         placeholder="Nombre de usuario"
         onChangeText={(value) => form.handleChange('username', value)}
+        style={{ width: '80%' }}
       />
       <InputText
         placeholder="Correo electrónico"
         onChangeText={(value) => form.handleChange('email', value)}
+        style={{ width: '80%' }}
       />
       <InputText
         placeholder="Contraseña"
         isPassword={true}
         onChangeText={(value) => form.handleChange('password', value)}
+        style={{ width: '80%' }}
       />
       <Button
         title="Registrate"
@@ -78,6 +83,7 @@ export default function SignUpScreen() {
           await form.handleSubmit();
         }}
         isLoading={isLoading}
+        style={{ width: '80%', marginTop: 20 }}
       />
       <Text
         value="Ya tienes cuenta? Inicia sesión"

@@ -10,6 +10,9 @@ export interface IPublicProfile {
   username: string;
   avatar: string;
   user_id: number;
+  biography: string;
+  followers_count: number;
+  following_count: number;
 }
 
 const fetchPublicProfile = async (

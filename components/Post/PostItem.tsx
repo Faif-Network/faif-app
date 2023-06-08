@@ -1,11 +1,18 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Linking,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCreateLike } from '../../api/hooks/feed/useCreateLike';
 import { IPost } from '../../api/hooks/feed/useFeed';
 import { formatDate } from '../../utils/date';
+import Button from '../UI/Buttons';
 import Text from '../UI/Text';
 
 function PostItem({ post }: { post: IPost }) {
@@ -45,13 +52,20 @@ function PostItem({ post }: { post: IPost }) {
             {post.content && (
               <Text value={post.content} style={{ marginVertical: 8 }} />
             )}
-            {post.attachment && (
+            {post.attachment && post.attachment_type === 'image' ? (
               <Image
                 source={{ uri: post.attachment }}
                 style={styles.image}
                 resizeMode="cover"
               />
-            )}
+            ) : null}
+
+            {post.attachment && post.attachment_type === 'pdf' ? (
+              <Button
+                onPress={() => Linking.openURL(post.attachment)}
+                title="Ver documento"
+              />
+            ) : null}
           </TouchableOpacity>
           <View style={styles.footer}>
             <TouchableOpacity onPress={handleLikesPress}>

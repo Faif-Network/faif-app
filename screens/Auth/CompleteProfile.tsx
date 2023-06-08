@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import * as ImagePicker from 'react-native-image-picker';
@@ -11,15 +12,17 @@ import useForm from '../../utils/useForm';
 
 export default function CompleteProfileScreen({ route }: any) {
   const { avatar } = route.params;
+  const navigation = useNavigation();
 
   const { handleUpdateProfile } = useUpdateProfile();
 
   const onSubmit = async (values: ICompleteProfileRequest) => {
     //await uploadImage(avatar, image);
     await handleUpdateProfile(values);
+    navigation.navigate('Communities' as never);
   };
 
-  const { uploadImage, image, setImage } = useImageUploader();
+  const { uploadImage, imageToUpload, setImage } = useImageUploader();
 
   const form = useForm<ICompleteProfileRequest>({
     initialValues: {
@@ -31,7 +34,7 @@ export default function CompleteProfileScreen({ route }: any) {
   });
 
   const handleImageUpload = async () => {
-    if (!image) {
+    if (!imageToUpload) {
       return;
     }
 
@@ -56,19 +59,25 @@ export default function CompleteProfileScreen({ route }: any) {
         size="large"
         weight="bold"
         align="center"
+        style={{ marginBottom: 20 }}
       />
-      {image && (
+      {imageToUpload && (
         <View style={styles.imageContainer}>
-          <Image source={{ uri: image }} style={styles.profileImage} />
+          <Image
+            source={{ uri: imageToUpload?.uri }}
+            style={styles.profileImage}
+          />
         </View>
       )}
       <InputText
         placeholder="Nombre"
         onChangeText={(value) => form.handleChange('name', value)}
+        style={{ width: '80%' }}
       />
       <InputText
         placeholder="Apellido"
         onChangeText={(value) => form.handleChange('last_name', value)}
+        style={{ width: '80%' }}
       />
       <InputText
         placeholder="Biografía"
@@ -76,11 +85,13 @@ export default function CompleteProfileScreen({ route }: any) {
         multiline
         numberOfLines={3}
         maxLength={280}
+        style={{ width: '80%' }}
       />
 
       <Button
         title="Subir foto de perfil"
         primary={false}
+        style={{ marginBottom: 20, width: '80%' }}
         onPress={() =>
           ImagePicker.launchImageLibrary(
             {
@@ -91,7 +102,7 @@ export default function CompleteProfileScreen({ route }: any) {
               const imgs = response?.assets;
               if (imgs) {
                 const uri = imgs[0].uri;
-                setImage(uri);
+                setImage(imageToUpload);
               }
             },
           )
@@ -101,9 +112,10 @@ export default function CompleteProfileScreen({ route }: any) {
       <Button
         title="Continuar"
         primary={true}
+        style={{ marginBottom: 20, width: '80%' }}
         onPress={() => {
           form.handleSubmit();
-          handleImageUpload();
+          //handleImageUpload();
         }}
         isLoading={form.isSubmitting}
       />

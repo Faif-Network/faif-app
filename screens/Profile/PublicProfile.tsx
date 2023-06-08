@@ -5,21 +5,27 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import useCreateChat from '../../api/hooks/chat/useCreateChat';
 import { useFeed } from '../../api/hooks/feed/useFeed';
+import useFollowUser from '../../api/hooks/followers/useFollowUser';
+import { useFollowers } from '../../api/hooks/followers/useFollowers';
 import { usePublicProfile } from '../../api/hooks/profile/usePublicProfile';
 import PostListViewer from '../../components/Post/PostListViewer';
 import Button from '../../components/UI/Buttons';
+import Text from '../../components/UI/Text';
 
 function PublicProfile({ route }: any) {
   const { feed } = useFeed({
     filterUser: route.params.userId,
     populate: 'user',
   });
+  const { handleFollowUser, isLoading: isLoadingFollow } = useFollowUser();
   const { userId } = route.params;
+  const { followers } = useFollowers({
+    user_id: userId,
+  });
   const { publicProfile } = usePublicProfile(userId);
   const navigation = useNavigation();
   const { isLoading: isLoadingCreatingChat, handleCreateChat } =
@@ -34,17 +40,37 @@ function PublicProfile({ route }: any) {
         />
         <View style={styles.body}>
           <View style={styles.bodyContent}>
-            <Text style={styles.name}>{publicProfile?.data?.username}</Text>
-            <Text style={styles.info}>Comunidad</Text>
-            <Text style={styles.description}>Biografia</Text>
+            <Text
+              value={publicProfile?.data?.username}
+              weight="bold"
+              style={{ marginTop: 30, marginBottom: 10 }}
+            />
+            <Text value={publicProfile?.data?.biography} />
+
+            <View style={styles.statsContainer}>
+              <View style={styles.statsItem}>
+                <Text
+                  value={`${followers?.data?.num_followers || 0} seguidores`}
+                />
+              </View>
+              <View style={styles.statsItem}>
+                <Text
+                  value={`${followers?.data?.num_following || 0} seguidos`}
+                />
+              </View>
+            </View>
+
             <View style={styles.buttonContainer}>
               <View style={styles.buttonWrapper}>
                 <Button
                   style={{ marginRight: 5 }}
                   primary={true}
-                  title="Seguir"
-                  onPress={() => {
-                    navigation.navigate('UpdateProfile' as never);
+                  title={
+                    followers?.data?.is_following ? 'Dejar de seguir' : 'Seguir'
+                  }
+                  isLoading={isLoadingFollow}
+                  onPress={async () => {
+                    await handleFollowUser(userId);
                   }}
                 />
               </View>
@@ -56,12 +82,14 @@ function PublicProfile({ route }: any) {
                   title="Enviar mensaje"
                   onPress={async () => {
                     await handleCreateChat(userId);
+                    navigation.navigate('ChatList' as never);
                   }}
                 />
               </View>
             </View>
           </View>
         </View>
+        <Text value="Publicaciones" weight="bold" align="center" />
         <PostListViewer posts={feed?.data} />
       </ScrollView>
     </SafeAreaView>
@@ -77,18 +105,18 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#00BFFF',
-    height: 160,
+    height: 130,
   },
   avatar: {
     width: 130,
     height: 130,
-    borderRadius: 63,
+    borderRadius: 65,
     borderWidth: 4,
     borderColor: 'white',
-    marginBottom: 10,
     alignSelf: 'center',
     position: 'absolute',
-    marginTop: 130,
+    marginTop: 80,
+    marginBottom: 20,
   },
   name: {
     fontSize: 22,
@@ -121,5 +149,13 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     flex: 1,
+  },
+  statsContainer: {
+    flexDirection: 'row',
+    marginTop: 20,
+    justifyContent: 'center',
+  },
+  statsItem: {
+    marginHorizontal: 10,
   },
 });
