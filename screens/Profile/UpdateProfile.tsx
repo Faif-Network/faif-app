@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import * as ImagePicker from 'react-native-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMe } from '../../api/hooks/profile/useMe';
 import useUpdateProfile, {
@@ -17,7 +16,7 @@ function UpdateProfileScreen() {
   const { profile: publicProfile } = useMe();
   const { handleUpdateProfile } = useUpdateProfile();
   const navigation = useNavigation();
-  const { image, setImage } = useImageUploader();
+  const { imageToUpload, setImageFromPicker } = useImageUploader();
 
   const { handleChange, isSubmitting, handleSubmit } =
     useForm<IUpdateProfileRequest>({
@@ -42,7 +41,7 @@ function UpdateProfileScreen() {
       <View style={styles.header}></View>
       <Image
         style={styles.avatar}
-        source={{ uri: image || publicProfile?.avatar }}
+        source={{ uri: imageToUpload?.uri || publicProfile?.avatar }}
       />
       <View style={styles.body}>
         <View style={styles.bodyContent}>
@@ -78,21 +77,7 @@ function UpdateProfileScreen() {
           <Button
             primary={false}
             title="Actualizar avatar"
-            onPress={() => {
-              ImagePicker.launchImageLibrary(
-                {
-                  mediaType: 'photo',
-                  includeBase64: false,
-                },
-                (response) => {
-                  const imgs = response?.assets;
-                  if (imgs) {
-                    const uri = imgs[0].uri;
-                    setImage(uri);
-                  }
-                },
-              );
-            }}
+            onPress={() => setImageFromPicker()}
           />
           <Button
             primary={true}

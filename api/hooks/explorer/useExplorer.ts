@@ -42,6 +42,7 @@ const useExplorer = (options?: IFetchExplorerRequest) => {
     queryFn: () => fetchExplorer(options),
     staleTime: 1000 * 60 * 1, // 1 minuto
     refetchOnWindowFocus: false,
+    enabled: !!options,
   });
 
   return { loading: explorerQuery.isLoading, explorer: explorerQuery.data };

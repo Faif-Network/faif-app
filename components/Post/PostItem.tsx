@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   Linking,
@@ -10,7 +10,9 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCreateLike } from '../../api/hooks/feed/useCreateLike';
+import useDeletePost from '../../api/hooks/feed/useDeletePost';
 import { IPost } from '../../api/hooks/feed/useFeed';
+import { useMe } from '../../api/hooks/profile/useMe';
 import { formatDate } from '../../utils/date';
 import Button from '../UI/Buttons';
 import Text from '../UI/Text';
@@ -19,6 +21,9 @@ function PostItem({ post }: { post: IPost }) {
   const navigation = useNavigation();
   const postId = post?.id;
   const { handleCreateLike } = useCreateLike(postId);
+  const [showMenu, setShowMenu] = useState(false);
+  const { handleDeletePost } = useDeletePost();
+  const { profile } = useMe();
 
   const handlePostPress = () => {
     navigation.navigate('PostDetails' as never, { post } as never);
@@ -32,6 +37,10 @@ function PostItem({ post }: { post: IPost }) {
     await handleCreateLike();
   };
 
+  const handleMenuPress = () => {
+    setShowMenu(!showMenu);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.postItem}>
@@ -42,11 +51,13 @@ function PostItem({ post }: { post: IPost }) {
               <Text value={post?.user?.username} weight="bold" />
               <Text value={formatDate(post.created_at)} size="small" />
             </View>
-            <Ionicons
-              name="ellipsis-horizontal-outline"
-              size={24}
-              color="#73788B"
-            />
+            <TouchableOpacity onPress={handleMenuPress}>
+              <Ionicons
+                name="ellipsis-horizontal-outline"
+                size={24}
+                color="#73788B"
+              />
+            </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={handlePostPress}>
             {post.content && (
@@ -101,6 +112,19 @@ function PostItem({ post }: { post: IPost }) {
               </View>
             </TouchableOpacity>
           </View>
+          {post?.user_id === profile?.id && showMenu && (
+            <View style={[styles.menuContainer, styles.menuContainerTop]}>
+              <TouchableOpacity
+                style={styles.menuOption}
+                onPress={async () => {
+                  await handleDeletePost(postId);
+                  setShowMenu(false);
+                }}
+              >
+                <Text value="Eliminar" style={styles.menuText} />
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </View>
     </SafeAreaView>
@@ -156,6 +180,34 @@ const styles = StyleSheet.create({
   },
   footerIconContainer: {
     marginRight: 16,
+  },
+  menuContainer: {
+    marginTop: 8,
+    backgroundColor: '#FFF',
+    borderRadius: 5,
+    padding: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  menuContainerTop: {
+    position: 'absolute',
+    top: 30, // Adjust this value as per your needs
+    right: 0,
+    left: 0,
+    zIndex: 1,
+  },
+  menuOption: {
+    padding: 8,
+  },
+  menuText: {
+    fontSize: 16,
+    color: '#000',
   },
 });
 

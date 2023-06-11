@@ -16,7 +16,6 @@ export default function SignUpScreen() {
 
   const onSubmit = async (values: IRegisterRequest) => {
     const data = await handleRegister(values);
-    console.log(data);
     if (data)
       navigation.navigate(
         'CompleteProfile' as never,

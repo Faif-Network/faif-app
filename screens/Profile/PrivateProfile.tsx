@@ -54,7 +54,7 @@ function PrivateProfile() {
                 title="Cerrar sesión"
                 onPress={async () => {
                   await AsyncStorage.removeItem('token');
-                  console.log('token removed');
+                  navigation.navigate('Login' as never);
                 }}
               />
             </View>

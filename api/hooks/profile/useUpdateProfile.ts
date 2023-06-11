@@ -7,6 +7,7 @@ export interface IUpdateProfileRequest {
   avatar?: string;
   name?: string;
   last_name?: string;
+  community_slug?: string;
 }
 
 interface IUpdateProfileResponse {

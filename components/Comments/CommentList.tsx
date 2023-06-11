@@ -15,6 +15,8 @@ import {
   ICreateCommentRequest,
   useCreateComment,
 } from '../../api/hooks/comments/useCreateComment';
+import { useDeleteComment } from '../../api/hooks/comments/useDeleteComment';
+import { useMe } from '../../api/hooks/profile/useMe';
 import { formatDate } from '../../utils/date';
 import useForm from '../../utils/useForm';
 import Text from '../UI/Text';
@@ -27,6 +29,8 @@ const CommentsList = ({
   postId: string;
 }) => {
   const { handleCreateComment } = useCreateComment(postId);
+  const { handleDeleteComment } = useDeleteComment();
+  const { profile } = useMe();
   const [keyboardOffset, setKeyboardOffset] = useState(0);
 
   const onSubmit = async (comment: ICreateCommentRequest) => {
@@ -95,6 +99,14 @@ const CommentsList = ({
                   <Text value={formatDate(comment?.created_at)} size="small" />
                   <Text value={comment?.content} size="medium" />
                 </View>
+                {comment?.user_id === profile?.id && (
+                  <Button
+                    title="Eliminar"
+                    onPress={async () =>
+                      await handleDeleteComment(comment?.post_id, comment?.id)
+                    }
+                  />
+                )}
               </View>
             ))
           )}
@@ -145,6 +157,8 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
     paddingHorizontal: 16,
     paddingVertical: 8,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   commentContent: {
     flex: 1,

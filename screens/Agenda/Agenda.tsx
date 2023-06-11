@@ -1,27 +1,18 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
-import { Agenda, AgendaSchedule } from 'react-native-calendars';
+import { Agenda } from 'react-native-calendars';
+import useCalendar from '../../api/hooks/calendar/useCalendar';
 import Text from '../../components/UI/Text';
 
 export default function AgendaScreen() {
-  const items: AgendaSchedule = {
-    '2023-05-30': [
+  const { calendar: items } = useCalendar();
+
+  const test = {
+    'Sun Jun 11 2023': [
       {
-        name: 'Evento 1',
+        name: 'Entrevista',
         height: 50,
-        day: '2023-05-30',
-      },
-      {
-        name: 'Evento 2',
-        height: 70,
-        day: '2023-05-30',
-      },
-    ],
-    '2023-05-31': [
-      {
-        name: 'Evento 3',
-        height: 60,
-        day: '2023-05-31',
+        day: 'Sun Jun 11 2023',
       },
     ],
   };

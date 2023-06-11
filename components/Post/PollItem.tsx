@@ -1,4 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -38,11 +37,6 @@ function PollItem({ poll }: IPollItemProps) {
               <Text value={poll?.user?.username} weight="bold" />
               <Text value={formatDate(poll.created_at)} size="small" />
             </View>
-            <Ionicons
-              name="ellipsis-horizontal-outline"
-              size={24}
-              color="#73788B"
-            />
           </View>
           {poll.question && (
             <Text value={poll.question} style={{ marginVertical: 8 }} />

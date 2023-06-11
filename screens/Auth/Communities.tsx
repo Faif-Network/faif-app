@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
+  Alert,
   Dimensions,
   Image,
   SafeAreaView,
@@ -8,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import useUpdateProfile from '../../api/hooks/profile/useUpdateProfile';
 import Button from '../../components/UI/Buttons';
 import Text from '../../components/UI/Text';
 
@@ -160,11 +162,9 @@ const CommunitiesScreen = () => {
   const imageWidth = screenWidth / 3 - 20;
   const navigation = useNavigation();
 
-  const [selectedFacultad, setSelectedFacultad] = useState('');
+  const [selectedFacultad, setSelectedFacultad] = useState<string>();
 
-  const handleFacultadPress = (facultadId: string) => {
-    setSelectedFacultad(facultadId);
-  };
+  const { handleUpdateProfile } = useUpdateProfile();
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -180,7 +180,7 @@ const CommunitiesScreen = () => {
                 styles.facultadContainer,
                 selectedFacultad === facultad.name && styles.selectedFacultad,
               ]}
-              onPress={() => handleFacultadPress(facultad.name)}
+              onPress={async () => setSelectedFacultad(facultad?.slug)}
             >
               <Image
                 style={[styles.facultadImagen, { width: imageWidth }]}
@@ -199,12 +199,13 @@ const CommunitiesScreen = () => {
         </View>
         <Button
           title="Finalizar"
-          onPress={() => {
-            // Refresh screen
-            navigation.reset({
-              index: 1,
-              routes: [{ name: 'Main' } as any],
-            });
+          onPress={async () => {
+            if (!selectedFacultad) {
+              Alert.alert('Selecciona una facultad');
+              return;
+            }
+            await handleUpdateProfile({ community_slug: selectedFacultad });
+            navigation.navigate('MainTabs' as never);
           }}
           style={{ marginBottom: 16, alignSelf: 'center', width: 200 }}
         />

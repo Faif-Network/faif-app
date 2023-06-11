@@ -15,7 +15,7 @@ import Text from '../../components/UI/Text';
 
 const ChatScreen = ({ route }: { route: any }) => {
   const { profile } = useMe();
-  const { chat_id, receiver } = route.params;
+  const { chat_id, receiver, user } = route.params;
   const { chat } = useChatById(chat_id);
   const [messageText, setMessageText] = useState('');
   const [socket, setSocket] = useState<Socket>();
@@ -25,7 +25,7 @@ const ChatScreen = ({ route }: { route: any }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: receiver,
+      title: user,
     });
   }, [navigation]);
 

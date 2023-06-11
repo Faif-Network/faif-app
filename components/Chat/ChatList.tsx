@@ -14,10 +14,13 @@ function ChatList({ chats, isLoading }: ChatListProps) {
   const { profile } = useMe();
 
   const navigateToChat = (chat: IMyChat) => {
-    const { chat_id } = chat;
+    const { chat_id, user } = chat;
     const receiver = chat.users?.find((user) => user !== profile?.id);
     console.log(`Navigating to chat ${chat_id}`);
-    navigation.navigate('ChatView' as never, { chat_id, receiver } as never);
+    navigation.navigate(
+      'ChatView' as never,
+      { chat_id, receiver, user: user?.username } as never,
+    );
   };
 
   const renderItem = ({ item }: { item: IMyChat }) => (

@@ -24,6 +24,7 @@ const InputText = (props: InputProps) => {
       multiline={props.multiline}
       maxLength={props.maxLength}
       defaultValue={defaultValue}
+      autoCapitalize="none"
     />
   );
 };

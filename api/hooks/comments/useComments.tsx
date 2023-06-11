@@ -11,6 +11,7 @@ export interface IComment {
   post_id: string;
   content: string;
   created_at: number;
+  user_id: string;
   user?: {
     username: string;
     avatar: string;

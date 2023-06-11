@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { ExplorerTypes } from '../../api/hooks/explorer/useCreateExplorer';
 import { useExplorer } from '../../api/hooks/explorer/useExplorer';
 import Button from '../../components/UI/Buttons';
 import Text from '../../components/UI/Text';
@@ -15,59 +16,9 @@ import Text from '../../components/UI/Text';
 export default function ExplorerScreen({ route }: any) {
   const navigation = useNavigation();
   const { type } = route.params;
-  const { explorer, loading } = useExplorer({
-    explorer_type: type,
+  const { explorer } = useExplorer({
+    explorer_type: type || ExplorerTypes.UNIVERSITY,
   });
-  const explorerData = [
-    {
-      id: 1,
-      title: 'Evento 1',
-      description: 'Descripción del evento 1',
-      date: '01/01/2023',
-      tags: ['tag1', 'tag2', 'tag3'],
-      img: 'https://picsum.photos/200/300',
-    },
-    {
-      id: 2,
-      title: 'Evento 2',
-      description: 'Descripción del evento 2',
-      date: '01/01/2023',
-      tags: ['tag1', 'tag2', 'tag3'],
-      img: 'https://picsum.photos/200/300',
-    },
-    {
-      id: 3,
-      title: 'Evento 3',
-      description: 'Descripción del evento 3',
-      date: '01/01/2023',
-      tags: ['tag1', 'tag2', 'tag3'],
-      img: 'https://picsum.photos/200/300',
-    },
-    {
-      id: 4,
-      title: 'Evento 4',
-      description: 'Descripción del evento 4',
-      date: '01/01/2023',
-      tags: ['tag1', 'tag2', 'tag3'],
-      img: 'https://picsum.photos/200/300',
-    },
-    {
-      id: 5,
-      title: 'Evento 5',
-      description: 'Descripción del evento 5',
-      date: '01/01/2023',
-      tags: ['tag1', 'tag2', 'tag3'],
-      img: 'https://picsum.photos/200/300',
-    },
-    {
-      id: 6,
-      title: 'Evento 6',
-      description: 'Descripción del evento 6',
-      date: '01/01/2023',
-      tags: ['tag1', 'tag2', 'tag3'],
-      img: 'https://picsum.photos/200/300',
-    },
-  ];
 
   const renderEventCard = ({ item }: { item: any }) => (
     <View style={styles.card}>

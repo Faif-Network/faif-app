@@ -1,23 +1,27 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SelectDropdown from 'react-native-select-dropdown';
-import {
+import useAddCalendarEvent, {
   EventTypes,
-  IAddCalendarEvent,
-} from '../../api/hooks/events/useAddCalendarEvent';
+  IAddCalendarEventRequest,
+} from '../../api/hooks/calendar/useAddCalendarEvent';
 import Button from '../../components/UI/Buttons';
 import InputText from '../../components/UI/Inputs';
 import Text from '../../components/UI/Text';
 import useForm from '../../utils/useForm';
 
 export default function AddEventScreen() {
-  const onSubmit = async (values: IAddCalendarEvent) => {
+  const onSubmit = async (values: IAddCalendarEventRequest) => {
     handleAddEvent();
   };
+  const navigation = useNavigation();
 
-  const form = useForm<IAddCalendarEvent>({
+  const { handleAddCalendarEvent, isLoading } = useAddCalendarEvent();
+
+  const form = useForm<IAddCalendarEventRequest>({
     initialValues: {
       timestamp: new Date().getTime(),
       description: '',
@@ -26,10 +30,7 @@ export default function AddEventScreen() {
     onSubmit,
   });
 
-  const handleAddEvent = () => {
-    // Lógica para guardar el evento en la base de datos u otra acción
-    // ...
-
+  const handleAddEvent = async () => {
     if (
       !form.values.description ||
       !form.values.eventType ||
@@ -38,6 +39,7 @@ export default function AddEventScreen() {
       Alert.alert('Error', 'Debes llenar todos los campos');
       return;
     }
+    await handleAddCalendarEvent(form.values);
   };
 
   return (
@@ -83,7 +85,11 @@ export default function AddEventScreen() {
         />
       </View>
 
-      <Button title="Agregar evento" onPress={handleAddEvent} />
+      <Button
+        title="Agregar evento"
+        onPress={handleAddEvent}
+        isLoading={isLoading}
+      />
     </SafeAreaView>
   );
 }

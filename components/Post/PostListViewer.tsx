@@ -9,7 +9,6 @@ function PostListViewer({
 }: {
   posts: Array<IPost | IPoll> | undefined;
 }) {
-  console.log(feed);
   return (
     <FlatList
       style={{ flex: 1 }}
